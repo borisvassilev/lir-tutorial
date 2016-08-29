@@ -31,7 +31,10 @@ Now let's try to generate the first version of the final document:
 Now, run Lir.  Notice how the list above was correctly recognized and
 typeset differently.
 
-[Get [source](https://github.com/borisvassilev/lir-tutorial/tree/v01) and [final document](https://borisvassilev.github.io/lir-tutorial/anagrams.01.html)]
+Version v01:
+Get [source](https://github.com/borisvassilev/lir-tutorial/tree/v01)
+and
+[final document](https://borisvassilev.github.io/lir-tutorial/anagrams.01.html)
 
 ----
 
