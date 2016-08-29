@@ -88,7 +88,10 @@ with `anagrams.lir` as its first and only argument.  Save this to
 `Makefile` and run `make` (no arguments necessary) from the working
 directory.
 
-[Get [source](https://github.com/borisvassilev/lir-tutorial/tree/v02) and [final document](https://borisvassilev.github.io/lir-tutorial/anagrams.02.html)]
+Version v02:
+Get [source](https://github.com/borisvassilev/lir-tutorial/tree/v02)
+and
+[final document](https://borisvassilev.github.io/lir-tutorial/anagrams.02.html)
 
 ----
 
@@ -117,7 +120,10 @@ This first code chunk that we have declared does not have any contents.
 From now on, the document will end with the beginning of a last section,
 "Bibliography".
 
-[Get [source](https://github.com/borisvassilev/lir-tutorial/tree/v03) and [final document](https://borisvassilev.github.io/lir-tutorial/anagrams.03.html)]
+Version v03:
+Get [source](https://github.com/borisvassilev/lir-tutorial/tree/v03)
+and
+[final document](https://borisvassilev.github.io/lir-tutorial/anagrams.03.html)
 
 ----
 
@@ -219,7 +225,10 @@ en-sizes: en-words en-dict
 
 @
 
-[Get [source](https://github.com/borisvassilev/lir-tutorial/tree/v04) and [final document](https://borisvassilev.github.io/lir-tutorial/anagrams.04.html)]
+Version v04:
+Get [source](https://github.com/borisvassilev/lir-tutorial/tree/v04)
+and
+[final document](https://borisvassilev.github.io/lir-tutorial/anagrams.04.html)
 
 ----
 
