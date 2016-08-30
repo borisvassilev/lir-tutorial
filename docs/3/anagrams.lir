@@ -31,7 +31,7 @@ Now let's try to generate the first version of the final document:
 Now, run Lir.  Notice how the list above was correctly recognized and
 typeset differently.
 
-Get [source](https://github.com/borisvassilev/lir-tutorial/docs/1/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/lir-tutorial/1/anagrams.html)
+Get [source](https://github.com/borisvassilev/lir-tutorial/docs/1/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/1/anagrams.html)
 
 
 ----
@@ -86,7 +86,7 @@ with `anagrams.lir` as its first and only argument.  Save this to
 `Makefile` and run `make` (no arguments necessary) from the working
 directory.
 
-Get [source](https://github.com/borisvassilev/lir-tutorial/docs/2/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/lir-tutorial/2/anagrams.html)
+Get [source](https://github.com/borisvassilev/lir-tutorial/docs/2/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/2/anagrams.html)
 
 
 ----
@@ -116,7 +116,7 @@ This first code chunk that we have declared does not have any contents.
 From now on, the document will end with the beginning of a last section,
 "Bibliography".
 
-Get [source](https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/lir-tutorial/3/anagrams.html)
+Get [source](https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/3/anagrams.html)
 
 
 ----
