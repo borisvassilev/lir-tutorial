@@ -1,0 +1,24 @@
+# Aim
+The aim of this tutorial is to show you how to use Lir efficiently and
+effectively.  To achieve this, the tutorial describes the solution to a
+simple problem: how to find anagrams in the English language.
+
+The idea is to follow the solution outlined by Bentley in "Programming
+Pearls" [@bentley1986programming].  We are going to prepare a dictionary of
+words, calculate the signature of each word, sort by signatures.  At that
+point, all sets of words that are anagrams of each other will be in
+consecutive runs, signed by the same signature.  We will squash them, each
+set (with more than two words in it) displayed on a space-separated line.
+
+Now, we are going to define our first special code chunk.  If the name of
+the code chunk is prefixed by "`source:`", this declares the name of a file
+that is necessary in order to generate the final document.  Here, we need
+to declare that we are using the file `anagrams.bib`, which contains the
+bibliography for this document. In the previous paragraph, we have cited the
+1986 book "Programming Pearls" using the "`[@<bibkey>]`" markdown.
+<<:source anagrams.bib>>=
+@
+This first code chunk that we have declared does not have any contents.
+
+From now on, the document will end with the beginning of a last section,
+"Bibliography".

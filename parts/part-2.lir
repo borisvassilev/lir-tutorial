@@ -1,0 +1,49 @@
+# Document formatting and structure
+The previous part contains a few examples of using markdown to format your
+text.  In this part, we will see more uses of markdown.  At the beginning
+of this paragraph, there is a line starting with a hash sign (`#`).  This
+defines a section heading: in the final document, "Document formatting and
+structure" will be typeset differently, and it will appear in a table of
+contents at the beginning of the document.
+
+First, let's give our data analysis an aim and a name.  We want to find
+anagrams of words in the English language.  We will call the data analysis
+"Anagrams", and give our name as an author.
+
+---
+title: 'Lir Tutorial: Finding Anagrams'
+author: Boris Vassilev
+...
+
+(This will not appear in the final document at that spot: it will be used
+to create the document title.)
+
+## Sections and subsections
+By using 1, 2, or 3 hash signs at the beginning of the line, we define
+sections, subsections, subsubsections in the final document.
+
+## Links
+Here is a [link to the Pandoc User's Guide](http://pandoc.org/MANUAL.html).
+I usually need to keep this guide open while I'm writing a Lir source file.
+
+# Making the final document
+In order to be able to use Lir efficiently, you need to learn at least a
+bit about the program Make and the syntax of Makefiles.  Here, we will
+define a Makefile for our data analysis.
+
+~~~~
+name = anagrams
+
+all: $(name).html
+
+$(name).html: $(name).lir
+	lir $(name).lir
+
+~~~~
+
+This can go into a file called `Makefile` in the working directory for this
+data analysis.  It does very little: tells make that to make all files, it
+needs to generate the file `anagrams.html` by running the program `lir`
+with `anagrams.lir` as its first and only argument.  Save this to
+`Makefile` and run `make` (no arguments necessary) from the working
+directory.

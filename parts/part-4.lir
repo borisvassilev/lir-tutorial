@@ -1,0 +1,97 @@
+# Dictionary
+What is a dictionary that is useful as input to our program?  What exactly
+is the program going to do?  We want to find a signature for every word in
+the dictionary.  To do that, we will sort the characters of each word.  If
+a two different words have the same signature, this means they have the
+exact same letters, so, they are anagrams of each other.
+
+I will use [the dictionary available with the Linux
+distribution](/usr/share/dict/words).  This file was copied to the working
+directory under the name `en-dict`, and declared as an input file (source).
+<<:source en-dict>>=
+@
+
+This dictionary is meant to be used by other programs, for example to check
+spelling.  It contains duplicate version of many words, only with the first
+letter capitalized or suffixed by an "'s".  To get rid of these duplicates,
+we define a bash script.  It contains three components in a pipe:
+
+<<clean-en-dict.sh>>=
+<<Set all letters to lower case>> \
+        | <<Delete 's at the end of words>> \
+        | <<Sort, leaving only unique entries>>
+@
+The first "normal" code chunk [[<<clean-en-dict.sh>>]] is used to define
+the pipe that cleans the dictionary file. It is a root chunk: it is not
+referenced by name in any other code chunk. It contains references to other
+code chunks by name.
+
+The first chunk referenced above is [[<<Set all letters to lower case>>]].
+It is a call to a SWI-Prolog script that converts all letters to lower
+case.
+<<Set all letters to lower case>>=
+<<Run SWI-Prolog script>> to-lower-case.prolog
+@
+The script [[<<to-lower-case.prolog>>]] has to be declared as a dependency
+of the Bash script that uses it:
+<<:make>>=
+clean-en-dict.sh: to-lower-case.prolog
+
+@
+The SWI-Prolog script reads all input, converts it to lower case, and
+writes it to output.
+<<to-lower-case.prolog>>=
+main :-
+        read_string(current_input, _, Input),
+        string_lower(Input, Output),
+        format(current_output, "~s", [Output]).
+@
+To safely run this and any Prolog program that defines a `main`, we can do:
+<<Run SWI-Prolog script>>=
+swipl -q -O -g 'main,halt' -t 'halt(1)'
+@
+
+In the next component of the pipeline, a call to `sed` removes all trailing
+"'s".
+<<Delete 's at the end of words>>=
+sed "s/'s$//"
+@
+
+At the end, everything is sorted, leaving only unique entries.
+<<Sort, leaving only unique entries>>=
+sort --unique
+@
+
+We define the transformation from the original file `en-dict` to the
+cleaned `en-words` as another rule:
+<<:make>>=
+en-words: en-dict clean-en-dict.sh
+	bash clean-en-dict.sh < $< > $@
+
+@
+
+The first line of this rule reads:
+
+> To generate the file `en-words`, you need the files `en-dict` and
+> `clean-en-dict.sh`.
+
+The second line of the rule reads:
+
+> Run the bash script `clean-en-dict.sh` to convert the first prerequisite
+> `en-dict` (written as `$<`) to create the target `en-words` (written as
+> `$@`).
+
+There is an empty line after the second line: it is necessary in order to
+finish the rule.
+
+Finally, to have a vague idea if this all worked, we can add a display item
+with the sizes of the original and the cleaned dictionary.  Immediately
+below the placeholder for the listing is the rule for generating the result
+using `wc`.
+<<:listing en-sizes>>=
+title: Word file sizes.
+<<:make>>=
+en-sizes: en-words en-dict
+	wc --lines $^ > $@
+
+@
