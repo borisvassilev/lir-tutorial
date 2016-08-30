@@ -2,8 +2,9 @@
 
 Here is how I _suggest_ you read this tutorial:
 
-First, open [the source file](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/anagrams.lir).
-Keep in open, and read the Lir source.
+First, go ahead and clone this repository to your computer.
+Then, open [the source file](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/anagrams.lir).
+Read the Lir source!
 
 In parallel, open [the final document](https://borisvassilev.github.io/lir-tutorial/anagrams.html).
 You could make use of the links in it.
