@@ -36,7 +36,7 @@ links(ID, Links) :-
          "(https://github.com/borisvassilev/lir-tutorial/docs/",
          ID,
          "/anagrams.lir) and [final document]",
-         "(https://borisvassilev.github.io/lir-tutorial/lir-tutorial/",
+         "(https://borisvassilev.github.io/lir-tutorial/",
          ID,
          "/anagrams.html)\n"],
         Links).

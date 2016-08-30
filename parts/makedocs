@@ -1,0 +1,10 @@
+#! /usr/bin/env bash
+
+for x in {1..5}
+do
+        swipl -g 'main,halt' -t 'halt(1)' from-parts.pl "$x" \
+                > "../docs/$x/anagrams.lir"
+done
+
+swipl -g 'main,halt' -t 'halt(1)' from-parts.pl 5 \
+        > "../anagrams.lir"
