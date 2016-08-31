@@ -5,7 +5,7 @@ function run {
         make
 }
 
-LAST=$(ls -1 -v part-*.lir | tail -n 1 | sed "s/^part-\(.\+\)\.lir$/\1/")
+LAST=$(ls -1 -v *-p.lir | tail -n 1 | sed "s/^\(.\+\)-p\.lir$/\1/")
 typeset -i n=$LAST
 
 for x in $(seq 1 "$n") 

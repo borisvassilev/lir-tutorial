@@ -28,7 +28,7 @@ Now let's try to generate the first version of the final document:
   file named `anagrams.lir` in your working directory.
 - You can also use the link below to download this file.
 - For `git` users: you can use the version of `anagrams.lir` in this
-  repository in the tag `tag-01`.
+  repository [here](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/1/anagrams.lir).
 
 Now, run Lir.  Notice how the list above was correctly recognized and
 typeset differently.
@@ -134,7 +134,7 @@ Get [source](https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir) 
 
 ----
 
-# Dictionary
+# Select words
 What is a dictionary that is useful as input to our program?  What exactly
 is the program going to do?  We want to find a signature for every word in
 the dictionary.  To do that, we will sort the characters of each word.  If
@@ -157,7 +157,7 @@ we define a bash script.  It contains three components in a pipe:
         | <<Delete 's at the end of words>> \
         | <<Sort, leaving only unique entries>>
 @
-The first "normal" code chunk [[<<clean-en-dict.sh>>]] is used to define
+The code chunk [[<<clean-en-dict.sh>>]] is used to define
 the pipe that cleans the dictionary file. It is a root chunk: it is not
 referenced by name in any other code chunk. It contains references to other
 code chunks by name.
@@ -248,6 +248,33 @@ Now is a good moment to stop and summarize everything we have done so far.
 - Inserted a listing of a result file to a display item in the final document.
 - Along the way, generated the final document for every version of the Lir
   source file.
+
+## Relax
+At this point, you might be feeling a bit overwhelmed by Lir.  Why do we
+need to use code chunks?  Why do we need to use Make?  Why do we need to
+generate display items?
+
+There are two answers for these question.  The first goes: It is so easy
+to do all these things with Lir, that it doesn't add anything to your
+workload.
+
+To give the second answer, we need some background.  Consider for a
+moment how you would generate the results from a series of programs?  At
+first, you define your programs.  Then, as they add up, you start using
+a script to run the programs for you.  At some point you realize you are
+generating again and again intermediate files that cannot have changed.
+You start using Make to deal with the dependencies, so you end up
+replacing your run script with a makefile.  And if you happen to need to
+share your work with someone, you have to provide some documentation to
+go with your code: code that is now scattered among all the source files
+and the makefile.
+
+Here is where Lir comes in.  You keep the source of all your executable
+files in the Lir source file.  You can even document it a bit, as long
+as it doesn't slow you down too much.  From the start, you declare the
+dependencies between your input, your code, and your results.
+Extracting the source files, running them, displaying the results: all
+that is done automatically by Lir.
 
 Get [source](https://github.com/borisvassilev/lir-tutorial/docs/5/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/5/anagrams.html)
 

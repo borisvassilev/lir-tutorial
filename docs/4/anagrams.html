@@ -25,7 +25,7 @@
 </ul></li>
 <li><a href="#making-the-final-document">Making the final document</a></li>
 <li><a href="#aim">Aim</a></li>
-<li><a href="#dictionary">Dictionary</a></li>
+<li><a href="#select-words">Select words</a></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
@@ -38,7 +38,7 @@
 <ul>
 <li>You can copy everything up to (and including) the 4-dash line below to file named <code>anagrams.lir</code> in your working directory.</li>
 <li>You can also use the link below to download this file.</li>
-<li>For <code>git</code> users: you can use the version of <code>anagrams.lir</code> in this repository in the tag <code>tag-01</code>.</li>
+<li>For <code>git</code> users: you can use the version of <code>anagrams.lir</code> in this repository <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/1/anagrams.lir">here</a>.</li>
 </ul>
 <p>Now, run Lir. Notice how the list above was correctly recognized and typeset differently.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/1/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/1/anagrams.html">final document</a></p>
@@ -82,7 +82,7 @@ $(name).html: $(name).lir
 <p>From now on, the document will end with the beginning of a last section, “Bibliography”.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/3/anagrams.html">final document</a></p>
 <hr />
-<h1 id="dictionary">Dictionary</h1>
+<h1 id="select-words">Select words</h1>
 <p>What is a dictionary that is useful as input to our program? What exactly is the program going to do? We want to find a signature for every word in the dictionary. To do that, we will sort the characters of each word. If a two different words have the same signature, this means they have the exact same letters, so, they are anagrams of each other.</p>
 <p>I will use <a href="/usr/share/dict/words">the dictionary available with the Linux distribution</a>. This file was copied to the working directory under the name <code>en-dict</code>, and declared as an input file (source).</p>
 <div id="NW0-1y56Hy-1" class="lirdisplay">
@@ -100,7 +100,7 @@ $(name).html: $(name).lir
 </pre>
 ◼
 </div>
-<p>The first “normal” code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫</span></span> is used to define the pipe that cleans the dictionary file. It is a root chunk: it is not referenced by name in any other code chunk. It contains references to other code chunks by name.</p>
+<p>The code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫</span></span> is used to define the pipe that cleans the dictionary file. It is a root chunk: it is not referenced by name in any other code chunk. It contains references to other code chunks by name.</p>
 <p>The first chunk referenced above is <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫</span></span>. It is a call to a SWI-Prolog script that converts all letters to lower case.</p>
 <div class="codechunk">
 <p><span id="NW0-46TBz6-1" class="defn"><span class="chunknr">C3:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>

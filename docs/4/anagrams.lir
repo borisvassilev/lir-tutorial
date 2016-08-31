@@ -28,7 +28,7 @@ Now let's try to generate the first version of the final document:
   file named `anagrams.lir` in your working directory.
 - You can also use the link below to download this file.
 - For `git` users: you can use the version of `anagrams.lir` in this
-  repository in the tag `tag-01`.
+  repository [here](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/1/anagrams.lir).
 
 Now, run Lir.  Notice how the list above was correctly recognized and
 typeset differently.
@@ -134,7 +134,7 @@ Get [source](https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir) 
 
 ----
 
-# Dictionary
+# Select words
 What is a dictionary that is useful as input to our program?  What exactly
 is the program going to do?  We want to find a signature for every word in
 the dictionary.  To do that, we will sort the characters of each word.  If
@@ -157,7 +157,7 @@ we define a bash script.  It contains three components in a pipe:
         | <<Delete 's at the end of words>> \
         | <<Sort, leaving only unique entries>>
 @
-The first "normal" code chunk [[<<clean-en-dict.sh>>]] is used to define
+The code chunk [[<<clean-en-dict.sh>>]] is used to define
 the pipe that cleans the dictionary file. It is a root chunk: it is not
 referenced by name in any other code chunk. It contains references to other
 code chunks by name.
