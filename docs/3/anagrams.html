@@ -76,11 +76,16 @@ $(name).html: $(name).lir
 <hr />
 <h1 id="aim">Aim</h1>
 <p>The aim of this tutorial is to show you how to use Lir efficiently and effectively. To achieve this, the tutorial describes the solution to a simple problem: how to find anagrams in the English language.</p>
-<p>The idea is to follow the solution outlined by Bentley in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">[@bentley1986programming]</span>. We are going to prepare a dictionary of words, calculate the signature of each word, sort by signatures. At that point, all sets of words that are anagrams of each other will be in consecutive runs, signed by the same signature. We will squash them, each set (with more than two words in it) displayed on a space-separated line.</p>
+<p>The idea is to follow the solution outlined by Bentley in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">(Bentley 1986)</span>. We are going to prepare a dictionary of words, calculate the signature of each word, sort by signatures. At that point, all sets of words that are anagrams of each other will be in consecutive runs, signed by the same signature. We will squash them, each set (with more than two words in it) displayed on a space-separated line.</p>
 <p>Now, we are going to define our first special code chunk. If the name of the code chunk is prefixed by “<code>source:</code>”, this declares the name of a file that is necessary in order to generate the final document. Here, we need to declare that we are using the file <code>anagrams.bib</code>, which contains the bibliography for this document. In the previous paragraph, we have cited the 1986 book “Programming Pearls” using the “<code>[@&lt;bibkey&gt;]</code>” markdown.</p>
 <p>From now on, the document will end with the beginning of a last section, “Bibliography”.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/3/anagrams.html">final document</a></p>
 <hr />
-<h1 id="bibliography">Bibliography</h1>
+<h1 id="bibliography" class="unnumbered">Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-bentley1986programming">
+<p>Bentley, Jon. 1986. <em>Programming Pearls</em>. ACM.</p>
+</div>
+</div>
 </body>
 </html>
