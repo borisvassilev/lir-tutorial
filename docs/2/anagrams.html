@@ -50,13 +50,19 @@
 <p>Here is a <a href="http://pandoc.org/MANUAL.html">link to the Pandoc User’s Guide</a>. I usually need to keep this guide open while I’m writing a Lir source file.</p>
 <h1 id="making-the-final-document">Making the final document</h1>
 <p>In order to be able to use Lir efficiently, you need to learn at least a bit about the program Make and the syntax of Makefiles. Here, we will define a Makefile for our data analysis.</p>
-<pre><code>name = anagrams
+<div class="codechunk">
+<p><span id="NW0-2CgwVs-1" class="defn"><span class="chunknr">C1:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+name = anagrams
 
 all: $(name).html
 
 $(name).html: $(name).lir
 	lir $(name).lir
-</code></pre>
+
+</pre>
+◼
+</div>
 <p>This can go into a file called <code>Makefile</code> in the working directory for this data analysis. It does very little: tells make that to make all files, it needs to generate the file <code>anagrams.html</code> by running the program <code>lir</code> with <code>anagrams.lir</code> as its first and only argument. Save this to <code>Makefile</code> and run <code>make</code> (no arguments necessary) from the working directory.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/2/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/2/anagrams.html">final document</a></p>
 <hr />

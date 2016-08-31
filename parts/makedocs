@@ -1,10 +1,25 @@
 #! /usr/bin/env bash
 
-for x in {1..5}
+function run {
+        notangle -t8 -RMakefile "$1" > Makefile
+        make
+}
+
+LAST=$(ls -1 -v part-*.lir | tail -n 1 | sed "s/^part-\(.\+\)\.lir$/\1/")
+typeset -i n=$LAST
+
+for x in $(seq 1 "$n") 
 do
         swipl -g 'main,halt' -t 'halt(1)' from-parts.pl "$x" \
                 > "../docs/$x/anagrams.lir"
+        if noroots ../docs/$x/anagrams.lir | grep -q Makefile
+        then
+                (cd ../docs/$x ; run anagrams.lir)
+        else
+                (cd ../docs/$x ; lir anagrams.lir)
+        fi
 done
 
 swipl -g 'main,halt' -t 'halt(1)' from-parts.pl 5 \
         > "../anagrams.lir"
+(cd .. ; run anagrams.lir)

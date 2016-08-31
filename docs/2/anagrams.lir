@@ -69,7 +69,7 @@ In order to be able to use Lir efficiently, you need to learn at least a
 bit about the program Make and the syntax of Makefiles.  Here, we will
 define a Makefile for our data analysis.
 
-~~~~
+<<Makefile>>=
 name = anagrams
 
 all: $(name).html
@@ -77,7 +77,7 @@ all: $(name).html
 $(name).html: $(name).lir
 	lir $(name).lir
 
-~~~~
+@
 
 This can go into a file called `Makefile` in the working directory for this
 data analysis.  It does very little: tells make that to make all files, it
