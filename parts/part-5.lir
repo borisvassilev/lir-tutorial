@@ -1,10 +1,9 @@
 # Recap
-The last part was quite a long one, with a lot of new concepts.
 Now is a good moment to stop and summarize everything we have done so far.
 
 - Defined a valid Lir source file;
 - Formatted and structured the file using markdown;
-- Declared input data files (sources);
+- Defined a code chunk and tangled it to a file;
 - Defined a Bash program and an SWI-Prolog program;
 - Declared rules for file dependencies and for executing programs;
 - Inserted a listing of a result file to a display item in the final document.

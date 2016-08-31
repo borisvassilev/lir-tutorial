@@ -69,8 +69,10 @@ I usually need to keep this guide open while I'm writing a Lir source file.
 # Making the final document
 In order to be able to use Lir efficiently, you need to learn at least a
 bit about the program Make and the syntax of Makefiles.  Here, we will
-define a Makefile for our data analysis.
-
+define a Makefile for our data analysis.  It tells make
+that to make all files, it needs to generate the file `anagrams.html` by
+running the program `lir` with `anagrams.lir` as its first and only
+argument. 
 <<Makefile>>=
 name = anagrams
 
@@ -80,13 +82,21 @@ $(name).html: $(name).lir
 	lir $(name).lir
 
 @
+This is our first code chunk. Its name is "Makefile"; its contents begin on
+the line after its declaration and run up to the `@` on a
+line by itself. The contents of this code chunk can go to the file named
+`Makefile` in the working directory of the project. To do this, we could
+use the following invocation of `notangle`, part of the Noweb distribution:
 
-This can go into a file called `Makefile` in the working directory for this
-data analysis.  It does very little: tells make that to make all files, it
-needs to generate the file `anagrams.html` by running the program `lir`
-with `anagrams.lir` as its first and only argument.  Save this to
-`Makefile` and run `make` (no arguments necessary) from the working
-directory.
+~~~~
+$ notangle -t8 -RMakefile anagrams.lir > Makefile
+~~~~
+
+> Run `notangle`; leave tabs untouched; extract the code chunk named
+> "Makefile" from the source file `anagrams.lir` to the file `Makefile`.
+
+Usually, we don't have to do this on our own: Lir recognizes code chunks
+that should be extracted to files, and does that automatically.
 
 Get [source](https://github.com/borisvassilev/lir-tutorial/docs/2/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/2/anagrams.html)
 
@@ -224,12 +234,11 @@ Get [source](https://github.com/borisvassilev/lir-tutorial/docs/4/anagrams.lir) 
 ----
 
 # Recap
-The last part was quite a long one, with a lot of new concepts.
 Now is a good moment to stop and summarize everything we have done so far.
 
 - Defined a valid Lir source file;
 - Formatted and structured the file using markdown;
-- Declared input data files (sources);
+- Defined a code chunk and tangled it to a file;
 - Defined a Bash program and an SWI-Prolog program;
 - Declared rules for file dependencies and for executing programs;
 - Inserted a listing of a result file to a display item in the final document.
