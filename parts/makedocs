@@ -22,4 +22,4 @@ done
 
 swipl -g 'main,halt' -t 'halt(1)' from-parts.pl 5 \
         > "../anagrams.lir"
-(cd .. ; run anagrams.lir)
+(cd .. ; run anagrams.lir ; cp anagrams.html docs)
