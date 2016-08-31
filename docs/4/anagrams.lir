@@ -1,10 +1,12 @@
 **Welcome to the Lir Tutorial**
 
-To make best use of this tutorial, open this source file in a text editor
-and start reading.  Every time you see a "`----`" on a line by itself, it
-is a good time to stop reading for a moment and try to compile the source
-file up to that point.  This can be done by simply invoking `lir` with the
-file as its only argument:
+To make best use of this tutorial, open the source file `anagrams.lir`
+(available in the [repository of the
+tutorial](https://github.com/borisvassilev/lir-tutorial)) in a text
+editor and start reading.  Every time you see a "`----`" on a line by
+itself, it is a good time to stop reading for a moment and try to
+compile the source file up to that point.  This can be done by simply
+invoking `lir` with the file as its only argument:
 
 ~~~~
 $ lir anagrams.lir
