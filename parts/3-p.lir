@@ -16,9 +16,6 @@ that is necessary in order to generate the final document.  Here, we need
 to declare that we are using the file `anagrams.bib`, which contains the
 bibliography for this document. In the previous paragraph, we have cited the
 1986 book "Programming Pearls" using the "`[@<bibkey>]`" markdown.
-<<:source anagrams.bib>>=
-@
-This first code chunk that we have declared does not have any contents.
 
 From now on, the document will end with the beginning of a last section,
 "Bibliography".

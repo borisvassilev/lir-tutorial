@@ -25,21 +25,23 @@
 </ul></li>
 <li><a href="#making-the-final-document">Making the final document</a></li>
 <li><a href="#aim">Aim</a></li>
-<li><a href="#dictionary">Dictionary</a></li>
-<li><a href="#recap">Recap</a></li>
+<li><a href="#select-words">Select words</a></li>
+<li><a href="#recap">Recap</a><ul>
+<li><a href="#relax">Relax</a></li>
+</ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
 <p><strong>Welcome to the Lir Tutorial</strong></p>
-<p>To make best use of this tutorial, open this source file in a text editor and start reading. Every time you see a “<code>----</code>” on a line by itself, it is a good time to stop reading for a moment and try to compile the source file up to that point. This can be done by simply invoking <code>lir</code> with the file as its only argument:</p>
+<p>To use this tutorial, open the source file <code>anagrams.lir</code> (available in the <a href="https://github.com/borisvassilev/lir-tutorial">repository of the tutorial</a>) in a text editor and start reading. Every time you see a “<code>----</code>” on a line by itself, it is a good time to stop reading for a moment and try to compile the source file up to that point. This can be done by simply invoking <code>lir</code> with the file as its only argument:</p>
 <pre><code>$ lir anagrams.lir</code></pre>
 <p>If everything goes well, a final document, <code>anagrams.html</code>, will be generated in your working directory. Open it in your web browser!</p>
-<p>The file up to here is just a plain text file, formatted using the “markdown” markup recognized by Pandoc. The whole first line is surrounded by double asterisk (<code>**</code>) for strong emphasis. In the first paragraph, there is inline code surrounded by single backticks (<code>`</code>). We see a single-line block of source code verbatim; usually, this is not necessary in a Lir source file.</p>
+<p>The file up to here is just a plain text file, formatted using the “markdown” markup recognized by Pandoc. The whole first line is surrounded by double asterisk (<code>**</code>) for strong emphasis. In the first paragraph, there is inline code surrounded by single backticks (<code>`</code>). The second paragraph is a single-line block of source code verbatim, with a line “<code>~~~~</code>” on bottom and on top; usually, this is not necessary in a Lir source file.</p>
 <p>Now let’s try to generate the first version of the final document:</p>
 <ul>
 <li>You can copy everything up to (and including) the 4-dash line below to file named <code>anagrams.lir</code> in your working directory.</li>
 <li>You can also use the link below to download this file.</li>
-<li>For <code>git</code> users: you can use the version of <code>anagrams.lir</code> in this repository in the tag <code>tag-01</code>.</li>
+<li>For <code>git</code> users: you can use the version of <code>anagrams.lir</code> in this repository <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/1/anagrams.lir">here</a>.</li>
 </ul>
 <p>Now, run Lir. Notice how the list above was correctly recognized and typeset differently.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/1/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/1/anagrams.html">final document</a></p>
@@ -53,41 +55,47 @@
 <h2 id="links">Links</h2>
 <p>Here is a <a href="http://pandoc.org/MANUAL.html">link to the Pandoc User’s Guide</a>. I usually need to keep this guide open while I’m writing a Lir source file.</p>
 <h1 id="making-the-final-document">Making the final document</h1>
-<p>In order to be able to use Lir efficiently, you need to learn at least a bit about the program Make and the syntax of Makefiles. Here, we will define a Makefile for our data analysis.</p>
-<pre><code>name = anagrams
+<p>In order to be able to use Lir efficiently, you need to learn at least a bit about the program Make and the syntax of Makefiles. Here, we will define a Makefile for our data analysis. It tells make that to make all files, it needs to generate the file <code>anagrams.html</code> by running the program <code>lir</code> with <code>anagrams.lir</code> as its first and only argument.</p>
+<div class="codechunk">
+<p><span id="NW0-2CgwVs-1" class="defn"><span class="chunknr">C1:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+name = anagrams
 
 all: $(name).html
 
 $(name).html: $(name).lir
 	lir $(name).lir
-</code></pre>
-<p>This can go into a file called <code>Makefile</code> in the working directory for this data analysis. It does very little: tells make that to make all files, it needs to generate the file <code>anagrams.html</code> by running the program <code>lir</code> with <code>anagrams.lir</code> as its first and only argument. Save this to <code>Makefile</code> and run <code>make</code> (no arguments necessary) from the working directory.</p>
+
+</pre>
+◼
+</div>
+<p>This is our first code chunk. Its name is “Makefile”; its contents begin on the line after its declaration and run up to the <code>@</code> on a line by itself. The contents of this code chunk can go to the file named <code>Makefile</code> in the working directory of the project. To do this, we could use the following invocation of <code>notangle</code>, part of the Noweb distribution:</p>
+<pre><code>$ notangle -t8 -RMakefile anagrams.lir &gt; Makefile</code></pre>
+<blockquote>
+<p>Run <code>notangle</code>; leave tabs untouched; extract the code chunk named “Makefile” from the source file <code>anagrams.lir</code> to the file <code>Makefile</code>.</p>
+</blockquote>
+<p>Usually, we don’t have to do this on our own: Lir recognizes code chunks that should be extracted to files, and does that automatically.</p>
+<p>After saving the contents of <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> above to a file <code>Makefile</code> in the working directory, you can simply invoke <code>make</code> (without any arguments) to run Lir.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/2/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/2/anagrams.html">final document</a></p>
 <hr />
 <h1 id="aim">Aim</h1>
 <p>The aim of this tutorial is to show you how to use Lir efficiently and effectively. To achieve this, the tutorial describes the solution to a simple problem: how to find anagrams in the English language.</p>
-<p>The idea is to follow the solution outlined by Bentley in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">(Bentley 1986)</span>. We are going to prepare a dictionary of words, calculate the signature of each word, sort by signatures. At that point, all sets of words that are anagrams of each other will be in consecutive runs, signed by the same signature. We will squash them, each set (with more than two words in it) displayed on a space-separated line.</p>
+<p>The idea is to follow the solution outlined by Bentley in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">[@bentley1986programming]</span>. We are going to prepare a dictionary of words, calculate the signature of each word, sort by signatures. At that point, all sets of words that are anagrams of each other will be in consecutive runs, signed by the same signature. We will squash them, each set (with more than two words in it) displayed on a space-separated line.</p>
 <p>Now, we are going to define our first special code chunk. If the name of the code chunk is prefixed by “<code>source:</code>”, this declares the name of a file that is necessary in order to generate the final document. Here, we need to declare that we are using the file <code>anagrams.bib</code>, which contains the bibliography for this document. In the previous paragraph, we have cited the 1986 book “Programming Pearls” using the “<code>[@&lt;bibkey&gt;]</code>” markdown.</p>
-<div id="NW0-3goU2e-1" class="lirdisplay">
-<div class="lirsource">
-<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/boris/code/lir-tutorial/docs/5/.lir/anagrams.bib"><code>anagrams.bib</code></a></span>
-</div>
-</div>
-<p>This first code chunk that we have declared does not have any contents.</p>
 <p>From now on, the document will end with the beginning of a last section, “Bibliography”.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/3/anagrams.html">final document</a></p>
 <hr />
-<h1 id="dictionary">Dictionary</h1>
+<h1 id="select-words">Select words</h1>
 <p>What is a dictionary that is useful as input to our program? What exactly is the program going to do? We want to find a signature for every word in the dictionary. To do that, we will sort the characters of each word. If a two different words have the same signature, this means they have the exact same letters, so, they are anagrams of each other.</p>
 <p>I will use <a href="/usr/share/dict/words">the dictionary available with the Linux distribution</a>. This file was copied to the working directory under the name <code>en-dict</code>, and declared as an input file (source).</p>
 <div id="NW0-1y56Hy-1" class="lirdisplay">
 <div class="lirsource">
-<span class="sourcename">S2:</span> <span class="sourcefile"><a href="/home/boris/code/lir-tutorial/docs/5/.lir/en-dict"><code>en-dict</code></a></span>
+<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/5/.lir/en-dict"><code>en-dict</code></a></span>
 </div>
 </div>
 <p>This dictionary is meant to be used by other programs, for example to check spelling. It contains duplicate version of many words, only with the first letter capitalized or suffixed by an “’s”. To get rid of these duplicates, we define a bash script. It contains three components in a pipe:</p>
 <div class="codechunk">
-<p><span id="NW0-1pYc1X-1" class="defn"><span class="chunknr">C1:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<p><span id="NW0-1pYc1X-1" class="defn"><span class="chunknr">C2:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
 <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1pYc1X-1-u1" href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫</span> \
         | <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1pYc1X-1-u2" href="#NW0-4UzD4N-1">Delete 's at the end of words</a><span style="white-space:nowrap"> </span>⟫</span> \
@@ -95,10 +103,10 @@ $(name).html: $(name).lir
 </pre>
 ◼
 </div>
-<p>The first “normal” code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫</span></span> is used to define the pipe that cleans the dictionary file. It is a root chunk: it is not referenced by name in any other code chunk. It contains references to other code chunks by name.</p>
+<p>The code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫</span></span> is used to define the pipe that cleans the dictionary file. It is a root chunk: it is not referenced by name in any other code chunk. It contains references to other code chunks by name.</p>
 <p>The first chunk referenced above is <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫</span></span>. It is a call to a SWI-Prolog script that converts all letters to lower case.</p>
 <div class="codechunk">
-<p><span id="NW0-46TBz6-1" class="defn"><span class="chunknr">C2:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C1</a></span></p>
+<p><span id="NW0-46TBz6-1" class="defn"><span class="chunknr">C3:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
 <pre>
 <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-46TBz6-1-u1" href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫</span> to-lower-case.prolog
 </pre>
@@ -106,16 +114,16 @@ $(name).html: $(name).lir
 </div>
 <p>The script <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫</span></span> has to be declared as a dependency of the Bash script that uses it:</p>
 <div class="codechunk">
-<p><span id="NW0-3dMVig-1" class="defn"><span class="chunknr">C3:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span><span class="chunkdefs"><br> definition continued in <a href="#NW0-3dMVig-2">↓<span style="white-space:nowrap"> </span>C8</a> + <a href="#NW0-3dMVig-3">⇣<span style="white-space:nowrap"> </span>C9</a></span></p>
+<p><span id="NW0-3dMVig-1" class="defn"><span class="chunknr">C4:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span><span class="chunkdefs"><br> definition continued in <a href="#NW0-3dMVig-2">↓<span style="white-space:nowrap"> </span>C9</a> + <a href="#NW0-3dMVig-3">⇣<span style="white-space:nowrap"> </span>C10</a></span></p>
 <pre>
 clean-en-dict.sh: to-lower-case.prolog
 
 </pre>
-<span class="chunknext"><a href="#NW0-3dMVig-2">⇩<span style="white-space:nowrap"> </span>C8</a></span>
+<span class="chunknext"><a href="#NW0-3dMVig-2">⇩<span style="white-space:nowrap"> </span>C9</a></span>
 </div>
 <p>The SWI-Prolog script reads all input, converts it to lower case, and writes it to output.</p>
 <div class="codechunk">
-<p><span id="NW0-2p6ucA-1" class="defn"><span class="chunknr">C4:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<p><span id="NW0-2p6ucA-1" class="defn"><span class="chunknr">C5:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
 main :-
         read_string(current_input, _, Input),
@@ -126,7 +134,7 @@ main :-
 </div>
 <p>To safely run this and any Prolog program that defines a <code>main</code>, we can do:</p>
 <div class="codechunk">
-<p><span id="NW0-40OfWs-1" class="defn"><span class="chunknr">C5:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-46TBz6-1">C2</a></span></p>
+<p><span id="NW0-40OfWs-1" class="defn"><span class="chunknr">C6:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-46TBz6-1">C3</a></span></p>
 <pre>
 swipl -q -O -g 'main,halt' -t 'halt(1)'
 </pre>
@@ -134,7 +142,7 @@ swipl -q -O -g 'main,halt' -t 'halt(1)'
 </div>
 <p>In the next component of the pipeline, a call to <code>sed</code> removes all trailing “’s”.</p>
 <div class="codechunk">
-<p><span id="NW0-4UzD4N-1" class="defn"><span class="chunknr">C6:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4UzD4N-1">Delete ’s at the end of words</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C1</a></span></p>
+<p><span id="NW0-4UzD4N-1" class="defn"><span class="chunknr">C7:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4UzD4N-1">Delete ’s at the end of words</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
 <pre>
 sed &quot;s/'s$//&quot;
 </pre>
@@ -142,7 +150,7 @@ sed &quot;s/'s$//&quot;
 </div>
 <p>At the end, everything is sorted, leaving only unique entries.</p>
 <div class="codechunk">
-<p><span id="NW0-3HloOv-1" class="defn"><span class="chunknr">C7:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3HloOv-1">Sort, leaving only unique entries</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C1</a></span></p>
+<p><span id="NW0-3HloOv-1" class="defn"><span class="chunknr">C8:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3HloOv-1">Sort, leaving only unique entries</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
 <pre>
 sort --unique
 </pre>
@@ -150,13 +158,13 @@ sort --unique
 </div>
 <p>We define the transformation from the original file <code>en-dict</code> to the cleaned <code>en-words</code> as another rule:</p>
 <div class="codechunk">
-<p><span id="NW0-3dMVig-2" class="defn"><span class="chunknr">C8:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-2">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-1">⇧<span style="white-space:nowrap"> </span>C3</a></span></p>
+<p><span id="NW0-3dMVig-2" class="defn"><span class="chunknr">C9:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-2">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-1">⇧<span style="white-space:nowrap"> </span>C4</a></span></p>
 <pre>
 en-words: en-dict clean-en-dict.sh
 	bash clean-en-dict.sh &lt; $&lt; &gt; $@
 
 </pre>
-<span class="chunknext"><a href="#NW0-3dMVig-3">⇩<span style="white-space:nowrap"> </span>C9</a></span>
+<span class="chunknext"><a href="#NW0-3dMVig-3">⇩<span style="white-space:nowrap"> </span>C10</a></span>
 </div>
 <p>The first line of this rule reads:</p>
 <blockquote>
@@ -171,13 +179,13 @@ en-words: en-dict clean-en-dict.sh
 <div id="NW0-1Kvowe-1" class="lirdisplay">
 <div class="lirlisting">
 <div class="listingheader">
-<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/boris/code/lir-tutorial/docs/5/.lir/en-sizes"><code>en-sizes</code></a></span>
+<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/5/.lir/en-sizes"><code>en-sizes</code></a></span>
 </div>
 <div class="listingcontents">
 <pre>
-  86862 en-words
- 119095 en-dict
- 205957 total
+  72188 en-words
+  99171 en-dict
+ 171359 total
 </pre>
 </div>
 <div class="listingmeta">
@@ -186,7 +194,7 @@ en-words: en-dict clean-en-dict.sh
 </div>
 </div>
 <div class="codechunk">
-<p><span id="NW0-3dMVig-3" class="defn"><span class="chunknr">C9:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-3">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-2">⇧<span style="white-space:nowrap"> </span>C8</a></span></p>
+<p><span id="NW0-3dMVig-3" class="defn"><span class="chunknr">C10:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-3">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-2">⇧<span style="white-space:nowrap"> </span>C9</a></span></p>
 <pre>
 en-sizes: en-words en-dict
 	wc --lines $^ &gt; $@
@@ -197,23 +205,23 @@ en-sizes: en-words en-dict
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/4/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/4/anagrams.html">final document</a></p>
 <hr />
 <h1 id="recap">Recap</h1>
-<p>The last part was quite a long one, with a lot of new concepts. Now is a good moment to stop and summarize everything we have done so far.</p>
+<p>Now is a good moment to stop and summarize everything we have done so far.</p>
 <ul>
 <li>Defined a valid Lir source file;</li>
 <li>Formatted and structured the file using markdown;</li>
-<li>Declared input data files (sources);</li>
+<li>Defined a code chunk and tangled it to a file;</li>
 <li>Defined a Bash program and an SWI-Prolog program;</li>
 <li>Declared rules for file dependencies and for executing programs;</li>
 <li>Inserted a listing of a result file to a display item in the final document.</li>
 <li>Along the way, generated the final document for every version of the Lir source file.</li>
 </ul>
+<h2 id="relax">Relax</h2>
+<p>At this point, you might be feeling a bit overwhelmed by Lir. Why do we need to use code chunks? Why do we need to use Make? Why do we need to generate display items?</p>
+<p>There are two answers for these question. The first goes: It is so easy to do all these things with Lir, that it doesn’t add anything to your workload.</p>
+<p>To give the second answer, we need some background. Consider for a moment how you would generate the results from a series of programs? At first, you define your programs. Then, as they add up, you start using a script to run the programs for you. At some point you realize you are generating again and again intermediate files that cannot have changed. You start using Make to deal with the dependencies, so you end up replacing your run script with a makefile. And if you happen to need to share your work with someone, you have to provide some documentation to go with your code: code that is now scattered among all the source files and the makefile.</p>
+<p>Here is where Lir comes in. You keep the source of all your executable files in the Lir source file. You can even document it a bit, as long as it doesn’t slow you down too much. From the start, you declare the dependencies between your input, your code, and your results. Extracting the source files, running them, displaying the results: all that is done automatically by Lir.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/5/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/5/anagrams.html">final document</a></p>
 <hr />
-<h1 id="bibliography" class="unnumbered">Bibliography</h1>
-<div id="refs" class="references">
-<div id="ref-bentley1986programming">
-<p>Bentley, Jon. 1986. <em>Programming Pearls</em>. ACM.</p>
-</div>
-</div>
+<h1 id="bibliography">Bibliography</h1>
 </body>
 </html>

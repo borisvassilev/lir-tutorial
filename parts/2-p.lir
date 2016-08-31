@@ -29,9 +29,11 @@ I usually need to keep this guide open while I'm writing a Lir source file.
 # Making the final document
 In order to be able to use Lir efficiently, you need to learn at least a
 bit about the program Make and the syntax of Makefiles.  Here, we will
-define a Makefile for our data analysis.
-
-~~~~
+define a Makefile for our data analysis.  It tells make
+that to make all files, it needs to generate the file `anagrams.html` by
+running the program `lir` with `anagrams.lir` as its first and only
+argument. 
+<<Makefile>>=
 name = anagrams
 
 all: $(name).html
@@ -39,11 +41,23 @@ all: $(name).html
 $(name).html: $(name).lir
 	lir $(name).lir
 
+@
+This is our first code chunk. Its name is "Makefile"; its contents begin on
+the line after its declaration and run up to the `@` on a
+line by itself. The contents of this code chunk can go to the file named
+`Makefile` in the working directory of the project. To do this, we could
+use the following invocation of `notangle`, part of the Noweb distribution:
+
+~~~~
+$ notangle -t8 -RMakefile anagrams.lir > Makefile
 ~~~~
 
-This can go into a file called `Makefile` in the working directory for this
-data analysis.  It does very little: tells make that to make all files, it
-needs to generate the file `anagrams.html` by running the program `lir`
-with `anagrams.lir` as its first and only argument.  Save this to
-`Makefile` and run `make` (no arguments necessary) from the working
-directory.
+> Run `notangle`; leave tabs untouched; extract the code chunk named
+> "Makefile" from the source file `anagrams.lir` to the file `Makefile`.
+
+Usually, we don't have to do this on our own: Lir recognizes code chunks
+that should be extracted to files, and does that automatically.
+
+After saving the contents of [[<<Makefile>>]] above to a file `Makefile` in
+the working directory, you can simply invoke `make` (without any arguments)
+to run Lir.

@@ -6,7 +6,7 @@ main :-
     concat(Names).
 
 num_name(X, X-Name) :-
-    atomics_to_string(["part-",X,".lir"], Name).
+    atomics_to_string([X,"-p.lir"], Name).
 
 concat(Names) :-
     forall(member(X-N, Names),

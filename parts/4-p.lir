@@ -1,4 +1,4 @@
-# Dictionary
+# Select words
 What is a dictionary that is useful as input to our program?  What exactly
 is the program going to do?  We want to find a signature for every word in
 the dictionary.  To do that, we will sort the characters of each word.  If
@@ -21,7 +21,7 @@ we define a bash script.  It contains three components in a pipe:
         | <<Delete 's at the end of words>> \
         | <<Sort, leaving only unique entries>>
 @
-The first "normal" code chunk [[<<clean-en-dict.sh>>]] is used to define
+The code chunk [[<<clean-en-dict.sh>>]] is used to define
 the pipe that cleans the dictionary file. It is a root chunk: it is not
 referenced by name in any other code chunk. It contains references to other
 code chunks by name.
