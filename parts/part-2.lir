@@ -57,3 +57,7 @@ $ notangle -t8 -RMakefile anagrams.lir > Makefile
 
 Usually, we don't have to do this on our own: Lir recognizes code chunks
 that should be extracted to files, and does that automatically.
+
+After saving the contents of [[<<Makefile>>]] above to a file `Makefile` in
+the working directory, you can simply invoke `make` (without any arguments)
+to run Lir.
