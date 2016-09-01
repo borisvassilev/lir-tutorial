@@ -44,7 +44,7 @@
 <li>For <code>git</code> users: you can use the version of <code>anagrams.lir</code> in this repository <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/1/anagrams.lir">here</a>.</li>
 </ul>
 <p>Now, run Lir. Notice how the list above was correctly recognized and typeset differently.</p>
-<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/1/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/1/anagrams.html">final document</a></p>
+<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/1/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/1/anagrams.html">final document</a></p>
 <hr />
 <h1 id="document-formatting-and-structure">Document formatting and structure</h1>
 <p>The previous part contains a few examples of using markdown to format your text. In this part, we will see more uses of markdown. At the beginning of this paragraph, there is a line starting with a hash sign (<code>#</code>). This defines a section heading: in the final document, “Document formatting and structure” will be typeset differently, and it will appear in a table of contents at the beginning of the document.</p>
@@ -76,14 +76,14 @@ $(name).html: $(name).lir
 </blockquote>
 <p>Usually, we don’t have to do this on our own: Lir recognizes code chunks that should be extracted to files, and does that automatically.</p>
 <p>After saving the contents of <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> above to a file <code>Makefile</code> in the working directory, you can simply invoke <code>make</code> (without any arguments) to run Lir.</p>
-<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/2/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/2/anagrams.html">final document</a></p>
+<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/2/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/2/anagrams.html">final document</a></p>
 <hr />
 <h1 id="aim">Aim</h1>
 <p>The aim of this tutorial is to show you how to use Lir efficiently and effectively. To achieve this, the tutorial describes the solution to a simple problem: how to find anagrams in the English language.</p>
 <p>The idea is to follow the solution outlined by Bentley in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">(Bentley 1986)</span>. We are going to prepare a dictionary of words, calculate the signature of each word, sort by signatures. At that point, all sets of words that are anagrams of each other will be in consecutive runs, signed by the same signature. We will squash them, each set (with more than two words in it) displayed on a space-separated line.</p>
 <p>Now, we are going to define our first special code chunk. If the name of the code chunk is prefixed by “<code>source:</code>”, this declares the name of a file that is necessary in order to generate the final document. Here, we need to declare that we are using the file <code>anagrams.bib</code>, which contains the bibliography for this document. In the previous paragraph, we have cited the 1986 book “Programming Pearls” using the “<code>[@&lt;bibkey&gt;]</code>” markdown.</p>
 <p>From now on, the document will end with the beginning of a last section, “Bibliography”.</p>
-<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/3/anagrams.html">final document</a></p>
+<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/3/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/3/anagrams.html">final document</a></p>
 <hr />
 <h1 id="select-words">Select words</h1>
 <p>What is a dictionary that is useful as input to our program? What exactly is the program going to do? We want to find a signature for every word in the dictionary. To do that, we will sort the characters of each word. If a two different words have the same signature, this means they have the exact same letters, so, they are anagrams of each other.</p>
@@ -202,7 +202,7 @@ en-sizes: en-words en-dict
 </pre>
 ◼
 </div>
-<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/4/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/4/anagrams.html">final document</a></p>
+<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/4/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/4/anagrams.html">final document</a></p>
 <hr />
 <h1 id="recap">Recap</h1>
 <p>Now is a good moment to stop and summarize everything we have done so far.</p>
@@ -220,8 +220,10 @@ en-sizes: en-words en-dict
 <p>There are two answers for these question. The first goes: It is so easy to do all these things with Lir, that it doesn’t add anything to your workload.</p>
 <p>To give the second answer, we need some background. Consider for a moment how you would generate the results from a series of programs? At first, you define your programs. Then, as they add up, you start using a script to run the programs for you. At some point you realize you are generating again and again intermediate files that cannot have changed. You start using Make to deal with the dependencies, so you end up replacing your run script with a makefile. And if you happen to need to share your work with someone, you have to provide some documentation to go with your code: code that is now scattered among all the source files and the makefile.</p>
 <p>Here is where Lir comes in. You keep the source of all your executable files in the Lir source file. You can even document it a bit, as long as it doesn’t slow you down too much. From the start, you declare the dependencies between your input, your code, and your results. Extracting the source files, running them, displaying the results: all that is done automatically by Lir.</p>
-<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/docs/5/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/5/anagrams.html">final document</a></p>
+<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/5/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/5/anagrams.html">final document</a></p>
 <hr />
+<p>This work is licenced under the terms of the GPL (see <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/COPYING">COPYING</a>.</p>
+<p>Copyright 2016 Boris Vassilev</p>
 <h1 id="bibliography" class="unnumbered">Bibliography</h1>
 <div id="refs" class="references">
 <div id="ref-bentley1986programming">

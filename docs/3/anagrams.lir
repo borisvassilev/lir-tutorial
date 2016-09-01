@@ -34,7 +34,9 @@ Now let's try to generate the first version of the final document:
 Now, run Lir.  Notice how the list above was correctly recognized and
 typeset differently.
 
-Get [source](https://github.com/borisvassilev/lir-tutorial/docs/1/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/1/anagrams.html)
+Get 
+[source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/1/anagrams.lir)
+and [final document](https://borisvassilev.github.io/lir-tutorial/1/anagrams.html)
 
 
 ----
@@ -103,7 +105,9 @@ After saving the contents of [[<<Makefile>>]] above to a file `Makefile` in
 the working directory, you can simply invoke `make` (without any arguments)
 to run Lir.
 
-Get [source](https://github.com/borisvassilev/lir-tutorial/docs/2/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/2/anagrams.html)
+Get 
+[source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/2/anagrams.lir)
+and [final document](https://borisvassilev.github.io/lir-tutorial/2/anagrams.html)
 
 
 ----
@@ -130,9 +134,15 @@ bibliography for this document. In the previous paragraph, we have cited the
 From now on, the document will end with the beginning of a last section,
 "Bibliography".
 
-Get [source](https://github.com/borisvassilev/lir-tutorial/docs/3/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/3/anagrams.html)
+Get 
+[source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/3/anagrams.lir)
+and [final document](https://borisvassilev.github.io/lir-tutorial/3/anagrams.html)
 
 
 ----
+
+This work is licenced under the terms of the GPL (see [COPYING](https://github.com/borisvassilev/lir-tutorial/blob/master/COPYING).
+
+Copyright 2016 Boris Vassilev
 
 # Bibliography

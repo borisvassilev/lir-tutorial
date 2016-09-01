@@ -31,12 +31,9 @@ one(X, FN) :-
         close(In)).
 
 links(ID, Links) :-
+    Repo = "https://github.com/borisvassilev/lir-tutorial/blob/master",
+    Pages = "https://borisvassilev.github.io/lir-tutorial",
     atomics_to_string(
-        ["Get [source]",
-         "(https://github.com/borisvassilev/lir-tutorial/docs/",
-         ID,
-         "/anagrams.lir) and [final document]",
-         "(https://borisvassilev.github.io/lir-tutorial/",
-         ID,
-         "/anagrams.html)\n"],
+        ["Get \n[source](", Repo, "/docs/", ID, "/anagrams.lir)\n",
+         "and [final document](", Pages, "/", ID, "/anagrams.html)\n"],
         Links).

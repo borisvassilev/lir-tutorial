@@ -34,7 +34,9 @@ Now let's try to generate the first version of the final document:
 Now, run Lir.  Notice how the list above was correctly recognized and
 typeset differently.
 
-Get [source](https://github.com/borisvassilev/lir-tutorial/docs/1/anagrams.lir) and [final document](https://borisvassilev.github.io/lir-tutorial/1/anagrams.html)
+Get 
+[source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/1/anagrams.lir)
+and [final document](https://borisvassilev.github.io/lir-tutorial/1/anagrams.html)
 
 
 ----
