@@ -2,6 +2,13 @@
 
 function run {
         notangle -t8 -RMakefile "$1" > Makefile
+        if [ ${PWD##*/} != "lir-tutorial" ]
+        then
+                if grep --line-regexp --quiet "# Bibliography" "$1"
+                then
+                        cp --update ../../anagrams.bib ./anagrams.bib
+                fi
+        fi
         make
 }
 

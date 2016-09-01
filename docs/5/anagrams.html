@@ -80,7 +80,7 @@ $(name).html: $(name).lir
 <hr />
 <h1 id="aim">Aim</h1>
 <p>The aim of this tutorial is to show you how to use Lir efficiently and effectively. To achieve this, the tutorial describes the solution to a simple problem: how to find anagrams in the English language.</p>
-<p>The idea is to follow the solution outlined by Bentley in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">[@bentley1986programming]</span>. We are going to prepare a dictionary of words, calculate the signature of each word, sort by signatures. At that point, all sets of words that are anagrams of each other will be in consecutive runs, signed by the same signature. We will squash them, each set (with more than two words in it) displayed on a space-separated line.</p>
+<p>The idea is to follow the solution outlined by Bentley in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">(Bentley 1986)</span>. We are going to prepare a dictionary of words, calculate the signature of each word, sort by signatures. At that point, all sets of words that are anagrams of each other will be in consecutive runs, signed by the same signature. We will squash them, each set (with more than two words in it) displayed on a space-separated line.</p>
 <p>In the previous paragraph, we have cited the 1986 book “Programming Pearls”. In the working directory, there is a bibliography file in the format recognized by Biblatex (I use <a href="https://www.jabref.org/">JabRef</a> to maintain that file, but any reference manager can export to a <code>.bib</code> file format). As long as there is a bibliography file with the same name as the Lir source file and the <code>.bib</code> extension, Lir will generate the citations and insert a list of citations at the end of the final document. Because this source file is <code>anagrams.lir</code>, the bibliography file was saved as <code>anagrams.bib</code>.</p>
 <p>From now on, the document will end with the beginning of a last section, “Bibliography”, so that it is listed in the Table of Contents.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/3/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/3/anagrams.html">final document</a></p>
@@ -235,8 +235,13 @@ en-sizes: en-words en-dict
 <p>Here is where Lir comes in. You keep the source of all your executable files in the Lir source file. You can even document it a bit, as long as it doesn’t slow you down too much. From the start, you declare the dependencies between your input, your code, and your results. Extracting the source files, running them, displaying the results: all that is done automatically by Lir.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/5/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/5/anagrams.html">final document</a></p>
 <hr />
-<p>This work is licenced under the terms of the GPL (see <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/COPYING">COPYING</a>.</p>
-<p>Copyright 2016 Boris Vassilev</p>
-<h1 id="bibliography">Bibliography</h1>
+<p>This work is licenced under the terms of the GPL (see <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/COPYING">COPYING</a>).</p>
+<p>Copyright (c) 2016 Boris Vassilev</p>
+<h1 id="bibliography" class="unnumbered">Bibliography</h1>
+<div id="refs" class="references">
+<div id="ref-bentley1986programming">
+<p>Bentley, Jon. 1986. <em>Programming Pearls</em>. ACM.</p>
+</div>
+</div>
 </body>
 </html>
