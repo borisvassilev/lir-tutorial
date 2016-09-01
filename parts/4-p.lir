@@ -102,6 +102,12 @@ en-words: en-dict clean-en-dict.sh
 However, it is good practice to use the automatic variables: it is easier
 to change and reuse the rules (more on that later).
 
+The name of the above code chunk, [[<<: Another way to declare the rule>>]],
+starts with a colon (`:`), but there is no keyword like `make` or `source`
+following it.  This code chunk will appear in the final document, but it will
+not be considered an executable program by Lir.  I tend to use such code
+chunks to show code verbatim in my final document.
+
 Finally, to have a vague idea if this all worked, we can add a display item
 with the sizes of the original and the cleaned dictionary.  Immediately
 below the placeholder for the listing is the rule for generating the result

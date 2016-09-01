@@ -101,6 +101,18 @@ $ notangle -t8 -RMakefile anagrams.lir > Makefile
 Usually, we don't have to do this on our own: Lir recognizes code chunks
 that should be extracted to files, and does that automatically.
 
+If you look at the final document, you will see that the
+[[<<Makefile>>]] code chunk is numbered "C1" (Code chunk 1), and right
+under the header it reads, "root chunk".  A root chunk is a code chunk
+that is not referenced by any other code chunks.  In other words, there
+are no code chunks in this document that are using the code chunk
+[[<<Makefile>>]].
+
+The double brackets define inline code in `noweb`.  These are especially
+useful when you refer to a code chunk by name, as the references to
+[[<<Makefile>>]] above: in the final document, these are going to be
+links to the definition of that code chunk.
+
 After saving the contents of [[<<Makefile>>]] above to a file `Makefile` in
 the working directory, you can simply invoke `make` (without any arguments)
 to run Lir.
@@ -248,6 +260,12 @@ en-words: en-dict clean-en-dict.sh
 However, it is good practice to use the automatic variables: it is easier
 to change and reuse the rules (more on that later).
 
+The name of the above code chunk, [[<<: Another way to declare the rule>>]],
+starts with a colon (`:`), but there is no keyword like `make` or `source`
+following it.  This code chunk will appear in the final document, but it will
+not be considered an executable program by Lir.  I tend to use such code
+chunks to show code verbatim in my final document.
+
 Finally, to have a vague idea if this all worked, we can add a display item
 with the sizes of the original and the cleaned dictionary.  Immediately
 below the placeholder for the listing is the rule for generating the result
@@ -311,6 +329,121 @@ that is done automatically by Lir.
 Get 
 [source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/5/anagrams.lir)
 and [final document](https://borisvassilev.github.io/lir-tutorial/5/anagrams.html)
+
+
+----
+
+# How it's made
+By now you should have some understanding of _what_ Lir does.  Now, we
+will go into some detail on _how_ Lir does it.
+
+If you have used Lir to interpret your Lir source file, there will be a
+hidden directory `.lir` inside your working directory.  Go ahead and
+delete `.lir` (you can use the command `rm -r .lir` to do that).  Don't
+be afraid: nothing of value will be lost.
+
+When we invoke Lir using `lir anagrams.lir` or `make` using the
+[[<<Makefile>>]] defined above, Lir performs three steps in simple
+succession:
+
+1. "Tangle" the Lir source file;
+2. "Make" everything;
+3. "Weave" the final document.
+
+The three steps are implemented as calls to the `lir` command line
+program with the command `tangle`, `make`, or `weave` as the first
+argument and the Lir source file name as the second argument.
+
+## Tangle
+Now, run the first step only:
+
+<<: Tangle the source file>>=
+$ lir tangle anagrams.lir
+@
+
+... and look inside the `.lir` folder. This is what I see:
+
+<<: Contents of the .lir folder after tangling>>=
+$ ls -a .lir
+.                 __LIR_SOURCE_anagrams.lir  .makehtml
+..                .makeall                   to-lower-case.prolog
+clean-en-dict.sh  .makedag
+en-dict           Makefile
+@
+
+Here is how these files came to be, and why they are there (note the use
+of a `#.` for autonumbered bullet points):
+
+#.  Before anything else, Lir creates the `.lir` directory if it does not
+    yet exist.
+
+#.  Lir looks for executable programs in your Lir source file.  All root code
+    chunks that are not special code chunks (name does not begin with a
+    colon) are extracted to files inside `.lir`.  The file names are the code
+    chunk names: for now, we see `clean-dict-en-dict.sh` and
+    `to-lower-case.prolog` listed there.  You can open these in your text
+    editor: go ahead and do it!
+
+#.  Lir generates three makefiles in `.lir`: `.makeall`, `.makedag`, and
+    `.makehtml`.  Look at them in your text editor!
+
+    The file `.makeall` contains a rule that lists all
+    input files declared in the Lir source file as prerequisites for
+    making the target `all`.
+
+    The file `.makedag` is a concatenation of all the [[<<:make>>]] code chunks
+    defined in the Lir source file.
+
+    The file `.makehtml` contains the rule for generating the final
+    document.
+
+#.  Lir generates a normalized version of the Lir source file.  The name
+    of this normalized version is prefixed by `__LIR_SOURCE_`.  If you
+    are really ambitious, go ahead and use `diff` to see how the
+    normalized version is different from the original Lir source.
+
+At this point, Lir has created a "state" for the work flow: it has
+tangled all executable code so that it can be evaluated, and generated
+makefiles so that code can be evaluated while observing the dependencies
+in the work flow.
+
+## Make
+To evaluate the state, run the second step (don't forget to change back
+to the working directory):
+
+<<: Make all results>>=
+$ lir make anagrams.lir
+@
+
+You should see that the two programs are evaluated: first,
+`clean-dict-sh` cleans `en-dict` to obtain `en-words`; then, `wc` is
+used to show the size of both `en-dict` and `en-words`, and saves the
+output to `en-sizes`.
+
+You can look for the files `en-words` and `en-sizes` inside `.lir`.  At
+the moment, those are all the results generated by the work flow.
+
+## Weave
+To generate the final document, run the last step:
+<<: Weave the final document>>=
+$ lir weave anagrams.lir
+@
+
+The final HTML document is generated and copied from `.lir` to the
+working directory.  You can open it in your web browser (as you have
+been doing all along).
+
+There is a practical advantage of running the three steps -- Tangle,
+Make, and Weave -- separately.  The second step, Make, can be run on a
+different machine: a server with enough memory to handle real-word data
+sets, for example.  To do that, one would only have to copy the state
+(the `.lir` directory) to the remote server, run `make` there, and then
+copy back the state, with all generated results, to the local machine
+for Weaving.
+
+Get 
+[source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/6/anagrams.lir)
+and [final document](https://borisvassilev.github.io/lir-tutorial/6/anagrams.html)
 
 
 ----

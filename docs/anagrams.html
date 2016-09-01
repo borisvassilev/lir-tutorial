@@ -29,6 +29,11 @@
 <li><a href="#recap">Recap</a><ul>
 <li><a href="#relax">Relax</a></li>
 </ul></li>
+<li><a href="#how-its-made">How it’s made</a><ul>
+<li><a href="#tangle">Tangle</a></li>
+<li><a href="#make">Make</a></li>
+<li><a href="#weave">Weave</a></li>
+</ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
@@ -75,6 +80,8 @@ $(name).html: $(name).lir
 <p>Run <code>notangle</code>; leave tabs untouched; extract the code chunk named “Makefile” from the source file <code>anagrams.lir</code> to the file <code>Makefile</code>.</p>
 </blockquote>
 <p>Usually, we don’t have to do this on our own: Lir recognizes code chunks that should be extracted to files, and does that automatically.</p>
+<p>If you look at the final document, you will see that the <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> code chunk is numbered “C1” (Code chunk 1), and right under the header it reads, “root chunk”. A root chunk is a code chunk that is not referenced by any other code chunks. In other words, there are no code chunks in this document that are using the code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span>.</p>
+<p>The double brackets define inline code in <code>noweb</code>. These are especially useful when you refer to a code chunk by name, as the references to <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> above: in the final document, these are going to be links to the definition of that code chunk.</p>
 <p>After saving the contents of <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> above to a file <code>Makefile</code> in the working directory, you can simply invoke <code>make</code> (without any arguments) to run Lir.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/2/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/2/anagrams.html">final document</a></p>
 <hr />
@@ -187,6 +194,7 @@ en-words: en-dict clean-en-dict.sh
 ◼
 </div>
 <p>However, it is good practice to use the automatic variables: it is easier to change and reuse the rules (more on that later).</p>
+<p>The name of the above code chunk, <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-3Kwao3-1">: Another way to declare the rule</a><span style="white-space:nowrap"> </span>⟫</span></span>, starts with a colon (<code>:</code>), but there is no keyword like <code>make</code> or <code>source</code> following it. This code chunk will appear in the final document, but it will not be considered an executable program by Lir. I tend to use such code chunks to show code verbatim in my final document.</p>
 <p>Finally, to have a vague idea if this all worked, we can add a display item with the sizes of the original and the cleaned dictionary. Immediately below the placeholder for the listing is the rule for generating the result using <code>wc</code>.</p>
 <div id="NW0-1Kvowe-1" class="lirdisplay">
 <div class="lirlisting">
@@ -234,6 +242,72 @@ en-sizes: en-words en-dict
 <p>To give the second answer, we need some background. Consider for a moment how you would generate the results from a series of programs? At first, you define your programs. Then, as they add up, you start using a script to run the programs for you. At some point you realize you are generating again and again intermediate files that cannot have changed. You start using Make to deal with the dependencies, so you end up replacing your run script with a makefile. And if you happen to need to share your work with someone, you have to provide some documentation to go with your code: code that is now scattered among all the source files and the makefile.</p>
 <p>Here is where Lir comes in. You keep the source of all your executable files in the Lir source file. You can even document it a bit, as long as it doesn’t slow you down too much. From the start, you declare the dependencies between your input, your code, and your results. Extracting the source files, running them, displaying the results: all that is done automatically by Lir.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/5/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/5/anagrams.html">final document</a></p>
+<hr />
+<h1 id="how-its-made">How it’s made</h1>
+<p>By now you should have some understanding of <em>what</em> Lir does. Now, we will go into some detail on <em>how</em> Lir does it.</p>
+<p>If you have used Lir to interpret your Lir source file, there will be a hidden directory <code>.lir</code> inside your working directory. Go ahead and delete <code>.lir</code> (you can use the command <code>rm -r .lir</code> to do that). Don’t be afraid: nothing of value will be lost.</p>
+<p>When we invoke Lir using <code>lir anagrams.lir</code> or <code>make</code> using the <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> defined above, Lir performs three steps in simple succession:</p>
+<ol type="1">
+<li>“Tangle” the Lir source file;</li>
+<li>“Make” everything;</li>
+<li>“Weave” the final document.</li>
+</ol>
+<p>The three steps are implemented as calls to the <code>lir</code> command line program with the command <code>tangle</code>, <code>make</code>, or <code>weave</code> as the first argument and the Lir source file name as the second argument.</p>
+<h2 id="tangle">Tangle</h2>
+<p>Now, run the first step only:</p>
+<div class="codechunk">
+<p><span id="NW0-1XjUHh-1" class="defn"><span class="chunknr">C12:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1XjUHh-1">: Tangle the source file</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+$ lir tangle anagrams.lir
+</pre>
+◼
+</div>
+<p>… and look inside the <code>.lir</code> folder. This is what I see:</p>
+<div class="codechunk">
+<p><span id="NW0-sc4Op-1" class="defn"><span class="chunknr">C13:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-sc4Op-1">: Contents of the .lir folder after tangling</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+$ ls -a .lir
+.                 __LIR_SOURCE_anagrams.lir  .makehtml
+..                .makeall                   to-lower-case.prolog
+clean-en-dict.sh  .makedag
+en-dict           Makefile
+</pre>
+◼
+</div>
+<p>Here is how these files came to be, and why they are there (note the use of a <code>#.</code> for autonumbered bullet points):</p>
+<ol>
+<li><p>Before anything else, Lir creates the <code>.lir</code> directory if it does not yet exist.</p></li>
+<li><p>Lir looks for executable programs in your Lir source file. All root code chunks that are not special code chunks (name does not begin with a colon) are extracted to files inside <code>.lir</code>. The file names are the code chunk names: for now, we see <code>clean-dict-en-dict.sh</code> and <code>to-lower-case.prolog</code> listed there. You can open these in your text editor: go ahead and do it!</p></li>
+<li><p>Lir generates three makefiles in <code>.lir</code>: <code>.makeall</code>, <code>.makedag</code>, and <code>.makehtml</code>. Look at them in your text editor!</p>
+<p>The file <code>.makeall</code> contains a rule that lists all input files declared in the Lir source file as prerequisites for making the target <code>all</code>.</p>
+<p>The file <code>.makedag</code> is a concatenation of all the <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫</span></span> code chunks defined in the Lir source file.</p>
+<p>The file <code>.makehtml</code> contains the rule for generating the final document.</p></li>
+<li><p>Lir generates a normalized version of the Lir source file. The name of this normalized version is prefixed by <code>__LIR_SOURCE_</code>. If you are really ambitious, go ahead and use <code>diff</code> to see how the normalized version is different from the original Lir source.</p></li>
+</ol>
+<p>At this point, Lir has created a “state” for the work flow: it has tangled all executable code so that it can be evaluated, and generated makefiles so that code can be evaluated while observing the dependencies in the work flow.</p>
+<h2 id="make">Make</h2>
+<p>To evaluate the state, run the second step (don’t forget to change back to the working directory):</p>
+<div class="codechunk">
+<p><span id="NW0-bxcQ6-1" class="defn"><span class="chunknr">C14:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-bxcQ6-1">: Make all results</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+$ lir make anagrams.lir
+</pre>
+◼
+</div>
+<p>You should see that the two programs are evaluated: first, <code>clean-dict-sh</code> cleans <code>en-dict</code> to obtain <code>en-words</code>; then, <code>wc</code> is used to show the size of both <code>en-dict</code> and <code>en-words</code>, and saves the output to <code>en-sizes</code>.</p>
+<p>You can look for the files <code>en-words</code> and <code>en-sizes</code> inside <code>.lir</code>. At the moment, those are all the results generated by the work flow.</p>
+<h2 id="weave">Weave</h2>
+<p>To generate the final document, run the last step:</p>
+<div class="codechunk">
+<p><span id="NW0-4FobWe-1" class="defn"><span class="chunknr">C15:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4FobWe-1">: Weave the final document</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+$ lir weave anagrams.lir
+</pre>
+◼
+</div>
+<p>The final HTML document is generated and copied from <code>.lir</code> to the working directory. You can open it in your web browser (as you have been doing all along).</p>
+<p>There is a practical advantage of running the three steps – Tangle, Make, and Weave – separately. The second step, Make, can be run on a different machine: a server with enough memory to handle real-word data sets, for example. To do that, one would only have to copy the state (the <code>.lir</code> directory) to the remote server, run <code>make</code> there, and then copy back the state, with all generated results, to the local machine for Weaving.</p>
+<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/6/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/6/anagrams.html">final document</a></p>
 <hr />
 <p>This work is licenced under the terms of the GPL (see <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/COPYING">COPYING</a>).</p>
 <p>Copyright (c) 2016 Boris Vassilev</p>

@@ -58,6 +58,18 @@ $ notangle -t8 -RMakefile anagrams.lir > Makefile
 Usually, we don't have to do this on our own: Lir recognizes code chunks
 that should be extracted to files, and does that automatically.
 
+If you look at the final document, you will see that the
+[[<<Makefile>>]] code chunk is numbered "C1" (Code chunk 1), and right
+under the header it reads, "root chunk".  A root chunk is a code chunk
+that is not referenced by any other code chunks.  In other words, there
+are no code chunks in this document that are using the code chunk
+[[<<Makefile>>]].
+
+The double brackets define inline code in `noweb`.  These are especially
+useful when you refer to a code chunk by name, as the references to
+[[<<Makefile>>]] above: in the final document, these are going to be
+links to the definition of that code chunk.
+
 After saving the contents of [[<<Makefile>>]] above to a file `Makefile` in
 the working directory, you can simply invoke `make` (without any arguments)
 to run Lir.

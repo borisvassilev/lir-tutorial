@@ -72,6 +72,8 @@ $(name).html: $(name).lir
 <p>Run <code>notangle</code>; leave tabs untouched; extract the code chunk named “Makefile” from the source file <code>anagrams.lir</code> to the file <code>Makefile</code>.</p>
 </blockquote>
 <p>Usually, we don’t have to do this on our own: Lir recognizes code chunks that should be extracted to files, and does that automatically.</p>
+<p>If you look at the final document, you will see that the <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> code chunk is numbered “C1” (Code chunk 1), and right under the header it reads, “root chunk”. A root chunk is a code chunk that is not referenced by any other code chunks. In other words, there are no code chunks in this document that are using the code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span>.</p>
+<p>The double brackets define inline code in <code>noweb</code>. These are especially useful when you refer to a code chunk by name, as the references to <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> above: in the final document, these are going to be links to the definition of that code chunk.</p>
 <p>After saving the contents of <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2CgwVs-1">Makefile</a><span style="white-space:nowrap"> </span>⟫</span></span> above to a file <code>Makefile</code> in the working directory, you can simply invoke <code>make</code> (without any arguments) to run Lir.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/2/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/2/anagrams.html">final document</a></p>
 <hr />
@@ -184,6 +186,7 @@ en-words: en-dict clean-en-dict.sh
 ◼
 </div>
 <p>However, it is good practice to use the automatic variables: it is easier to change and reuse the rules (more on that later).</p>
+<p>The name of the above code chunk, <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-3Kwao3-1">: Another way to declare the rule</a><span style="white-space:nowrap"> </span>⟫</span></span>, starts with a colon (<code>:</code>), but there is no keyword like <code>make</code> or <code>source</code> following it. This code chunk will appear in the final document, but it will not be considered an executable program by Lir. I tend to use such code chunks to show code verbatim in my final document.</p>
 <p>Finally, to have a vague idea if this all worked, we can add a display item with the sizes of the original and the cleaned dictionary. Immediately below the placeholder for the listing is the rule for generating the result using <code>wc</code>.</p>
 <div id="NW0-1Kvowe-1" class="lirdisplay">
 <div class="lirlisting">

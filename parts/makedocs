@@ -8,6 +8,10 @@ function run {
                 then
                         cp --update ../../anagrams.bib ./anagrams.bib
                 fi
+                if grep --line-regexp --quiet "<<:source en-dict>>=" "$1"
+                then
+                        cp --update ../../en-dict ./en-dict
+                fi
         fi
         make
 }
@@ -27,6 +31,6 @@ do
         fi
 done
 
-swipl -g 'main,halt' -t 'halt(1)' from-parts.pl 5 \
+swipl -g 'main,halt' -t 'halt(1)' from-parts.pl $n \
         > "../anagrams.lir"
 (cd .. ; run anagrams.lir ; cp anagrams.html docs)
