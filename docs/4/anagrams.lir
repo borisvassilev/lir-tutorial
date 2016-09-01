@@ -124,15 +124,18 @@ point, all sets of words that are anagrams of each other will be in
 consecutive runs, signed by the same signature.  We will squash them, each
 set (with more than two words in it) displayed on a space-separated line.
 
-Now, we are going to define our first special code chunk.  If the name of
-the code chunk is prefixed by "`source:`", this declares the name of a file
-that is necessary in order to generate the final document.  Here, we need
-to declare that we are using the file `anagrams.bib`, which contains the
-bibliography for this document. In the previous paragraph, we have cited the
-1986 book "Programming Pearls" using the "`[@<bibkey>]`" markdown.
+In the previous paragraph, we have cited the 1986 book "Programming
+Pearls".  In the working directory, there is a bibliography file in the
+format recognized by Biblatex (I use [JabRef](https://www.jabref.org/)
+to maintain that file, but any reference manager can export to a `.bib`
+file format).  As long as there is a bibliography file with the same
+name as the Lir source file and the `.bib` extension, Lir will generate
+the citations and insert a list of citations at the end of the final
+document.  Because this source file is `anagrams.lir`, the bibliography
+file was saved as `anagrams.bib`.
 
 From now on, the document will end with the beginning of a last section,
-"Bibliography".
+"Bibliography", so that it is listed in the Table of Contents.
 
 Get 
 [source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/3/anagrams.lir)
@@ -153,6 +156,11 @@ distribution](/usr/share/dict/words).  This file was copied to the working
 directory under the name `en-dict`, and declared as an input file (source).
 <<:source en-dict>>=
 @
+The last two lines are the first example of a special code chunk that
+declares a source (input data) for our work flow.  The name of the code
+chunk must begin with the string ":source", followed by a single space
+character, and a path to the file.  The path may be an absolute path, but
+it is much easier to use a path relative to the working directory.
 
 This dictionary is meant to be used by other programs, for example to check
 spelling.  It contains duplicate version of many words, only with the first
@@ -164,10 +172,10 @@ we define a bash script.  It contains three components in a pipe:
         | <<Delete 's at the end of words>> \
         | <<Sort, leaving only unique entries>>
 @
-The code chunk [[<<clean-en-dict.sh>>]] is used to define
-the pipe that cleans the dictionary file. It is a root chunk: it is not
-referenced by name in any other code chunk. It contains references to other
-code chunks by name.
+The code chunk [[<<clean-en-dict.sh>>]] is used to define the pipe that
+cleans the dictionary file. It is a root chunk: it is not referenced by
+name in any other code chunk. It contains references to other code chunks
+by name.
 
 The first chunk referenced above is [[<<Set all letters to lower case>>]].
 It is a call to a SWI-Prolog script that converts all letters to lower
@@ -212,6 +220,8 @@ en-words: en-dict clean-en-dict.sh
 	bash clean-en-dict.sh < $< > $@
 
 @
+There is an empty line after the second line: it is necessary in order to
+finish the rule.
 
 The first line of this rule reads:
 
@@ -224,8 +234,19 @@ The second line of the rule reads:
 > `en-dict` (written as `$<`) to create the target `en-words` (written as
 > `$@`).
 
-There is an empty line after the second line: it is necessary in order to
-finish the rule.
+Note the use of the two [Make automatic
+variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html#Automatic-Variables):
+`$<` stands for "the first prerequisite, and `$@` stands for "the target".
+It is not strictly necessary to use automatic variables in the rules we
+define with Lir.  Instead, the rule could have just as well been written
+with the full file names:
+<<: Another way to declare the rule>>=
+en-words: en-dict clean-en-dict.sh
+	bash clean-en-dict.sh < en-dict > en-words
+
+@
+However, it is good practice to use the automatic variables: it is easier
+to change and reuse the rules (more on that later).
 
 Finally, to have a vague idea if this all worked, we can add a display item
 with the sizes of the original and the cleaned dictionary.  Immediately
@@ -238,6 +259,8 @@ en-sizes: en-words en-dict
 	wc --lines $^ > $@
 
 @
+In this last ":make" code chunk, I have used the `$^` Make special
+variable, "all prerequisites to a target".
 
 Get 
 [source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/4/anagrams.lir)
