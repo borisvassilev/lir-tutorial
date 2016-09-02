@@ -1,0 +1,33 @@
+# Calculate signatures
+<<:make>>=
+en-signed: en-signatures en-words
+	paste $^ > $@
+
+en-signatures: sign.prolog en-words
+	<<Run SWI-Prolog script>> $^ > $@
+
+<<sign.prolog>>=
+main :-
+        current_prolog_flag(argv, [Words_file|_]),
+        setup_call_cleanup(open(Words_file, read, In),
+                output_signatures(In, current_output),
+                close(In)).
+
+output_signatures(In, Out) :-
+        read_line_to_codes(In, Word),
+        (       Word == end_of_file
+        ->      true
+        ;       msort(Word, Signature),
+                format(Out, "~s\n", [Signature]),
+                output_signatures(In, Out)
+        ).
+@
+
+<<:listing en-signed-size>>=
+title: The file with the signed words
+<<:make>>=
+en-signed-size: en-signed
+	wc $^ > $@
+
+@
+And this should be it.
