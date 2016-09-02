@@ -180,8 +180,8 @@ letter capitalized or suffixed by an "'s".  To get rid of these duplicates,
 we define a bash script.  It contains three components in a pipe:
 
 <<clean-en-dict.sh>>=
-<<Set all letters to lower case>> \
-        | <<Delete 's at the end of words>> \
+<<Delete all words with apostrophes>> \
+        | <<Set all letters to lower case>> \
         | <<Sort, leaving only unique entries>>
 @
 The code chunk [[<<clean-en-dict.sh>>]] is used to define the pipe that
@@ -189,7 +189,14 @@ cleans the dictionary file. It is a root chunk: it is not referenced by
 name in any other code chunk. It contains references to other code chunks
 by name.
 
-The first chunk referenced above is [[<<Set all letters to lower case>>]].
+The first chunk referenced above is
+[[<<Delete all words with apostrophes>>]].
+To delete words with apostrophes, we use `sed`:
+<<Delete all words with apostrophes>>=
+sed -n "/'/!p"
+@
+
+Then comes [[<<Set all letters to lower case>>]].
 It is a call to a SWI-Prolog script that converts all letters to lower
 case.
 <<Set all letters to lower case>>=
@@ -213,12 +220,9 @@ To safely run this and any Prolog program that defines a `main`, we can do:
 <<Run SWI-Prolog script>>=
 swipl -q -O -g 'main,halt' -t 'halt(1)'
 @
-
-In the next component of the pipeline, a call to `sed` removes all trailing
-"'s".
-<<Delete 's at the end of words>>=
-sed "s/'s$//"
-@
+While it is not strictly necessary to define this in a code chunk of its
+own, this code chunk might prove useful later, if we have to run another
+SWI-Prolog script.
 
 At the end, everything is sorted, leaving only unique entries.
 <<Sort, leaving only unique entries>>=
@@ -448,22 +452,100 @@ and [final document](https://borisvassilev.github.io/lir-tutorial/6/anagrams.htm
 
 ----
 
-# Calculate signatures
-This is how we calculate signatures:
-<<:make>>=
-en-signed: en-signatures en-words
-	paste $^ > $@
+# Anagrams
+By now we have covered all the basics of using Lir.
+Finally, let's apply Lir to solve the problem of finding anagrams in the English language.
+From here on, we move a bit faster, as there is less to explain.
 
-en-signatures: sign.pl en-words
+We will implement the idea presented earlier: see [Aim](#aim) (this is a cross-reference to a section heading, as described in the [Pandoc manual](http://pandoc.org/MANUAL.html#header-identifiers).
+Here is a diagram of the complete data flow of our implementation (data objects are written in small letters and DATA TRANSFORMATIONS are in all caps):
+<<: Data flow for finding anagrams>>=
+         +--< words >--+
+         |             |
+         |             |
+       SIGN            |
+         |             |
+         v             |
+    signatures         |
+         v             |
+         |             |
+         +--> PASTE <--+
+                v
+                v
+       SORT BY SIGNATURES
+                v
+                v
+    +---< sorted-signed >---+
+    |                       |
+    |                       |
+    v                       v
+ COLUMN 1                COLUMN 2
+    v                       v
+    v                       |
+COUNT RUNS                  |
+    v                       |
+    v           words-sorted-by-signature
+ set-sizes                  |
+    v                       |
+    +-------> SQUASH <------+
+                v
+                v
+           anagram-sets
+@
+The word "squash", as in "writing consecutive lines with the same signature to a space-separated list of anagrams on a line", comes from the discussion of this problem in "Programming Pearls" [@bentley1986programming].
+
+To make this into a work flow that can be evaluated, we start by declaring the dependencies and rules:
+<<:make>>=
+en-signatures: sign.prolog en-words
 	<<Run SWI-Prolog script>> $^ > $@
 
-<<sign.pl>>=
+en-sorted-signed: paste-and-sort.sh en-signatures en-words
+	bash $^ > $@
+
+@
+Note that here, we have put `PASTE` and `SORT BY SIGNATURES` from the diagram above in the same step, because there is no reason not to.
+
+Similarly, we put `COLUMN 1` and `COUNT RUNS` in the same rule.
+<<:make>>=
+en-set-sizes: set-sizes.sh en-sorted-signed
+	bash $^ > $@
+
+en-words-sorted-by-signature: en-sorted-signed
+	cut --field=2 $^ > $@
+
+@
+Usually, avoid evaluating standard command line tools directly in the rules.
+The reason is that if the rules change, Lir will not notice, because there is no executable code (code in non-special root chunks) that has changed.
+In this isolated case, it is fine to leave it like this.
+ 
+<<:make>>=
+en-anagram-sets: squash en-set-sizes en-words-sorted-by-signature
+	./$^ > $@
+
+@
+<<:result en-anagram-sets>>=
+@
+This is it!
+This leaves us with a question: why didn't we generate the rules from the diagram, or the diagram from the rules?
+Both are definitely doable, and probably not a bad idea; however, this would mean still more programs that would have to be involved in this work flow.
+It is not in the scope of this tutorial, but a good exercise for the reader.
+
+## Generate signatures
+We need signatures such that words that are anagrams of each other have the same signature.
+The approach we use here has been independently discovered by many programmers: if you sort the letters of two anagrams, you get the same result.
+
+To generate the signatures, we use Prolog again.
+This program opens for reading the file passed as its first command line argument, and writes all signatures to standard output:
+<<sign.prolog>>=
 main :-
         current_prolog_flag(argv, [Words_file|_]),
         setup_call_cleanup(open(Words_file, read, In),
                 output_signatures(In, current_output),
                 close(In)).
+@
 
+To output signatures, we [read from the input stream line by line](http://eu.swi-prolog.org/pldoc/doc_for?object=read_line_to_codes/2) (because each word is on a line of its own), sort the letters of the word [without removing duplicates](http://eu.swi-prolog.org/pldoc/doc_for?object=msort/2), and write the sorted letters to the output stream.
+<<sign.prolog>>=
 output_signatures(In, Out) :-
         read_line_to_codes(In, Word),
         (       Word == end_of_file
@@ -473,15 +555,100 @@ output_signatures(In, Out) :-
                 output_signatures(In, Out)
         ).
 @
+This last code chunk is an example of a code chunk continuation.
+If a code chunk with the same name already appeared earlier in the Lir source file, the contents will be appended to it.
+Interrupting a code chunk like this is the Lir equivalent of a comment block within a source code file.
 
-<<:listing en-signed-size>>=
-title: The file with the signed words
-<<:make>>=
-en-signed-size: en-signed
-	wc $^ > $@
-
+## Sort by signatures
+This will be a Bash script that uses the standard command line tools `paste` and `sort`.
+`Paste` will take two files with the same number of lines, and merge them in two columns separated by a tab.
+We use `sort` with two options: `--key=1` says that it should sort by the value in the first column only, and `--stable` says that it sould ignore the rest of the line.
+Because the second column is already sorted, adding the option `--stable` has no effect on the final result; however, it makes our intentions clear, and happens to do a bit less work (so it actually runs faster).
+<<paste-and-sort.sh>>=
+paste "$1" "$2" \
+        | sort --key=1 --stable
 @
-And this should be it.
+
+## Anagram set sizes
+First, we have to generate the size of each set of anagrams.
+Because the file `en-sorted-signed` is sorted by signatures (its first column), it is enough to extract the first column and count the number of occurences of the same line.
+For this, we use `cut` and `uniq --count`.
+
+For reasons shouded in mistery, the output of `uniq --count` is a bit unconventional and cannot be configured.
+Instead of using columns separated by a tab (or any other delimiter), it outputs the counts in a right-justified, space-padded column, separated from the next column with a single space.
+We will use Awk to get the numbers only.
+<<set-sizes.sh>>=
+cut --fields=1 "$1" \
+        | uniq --count \
+        | awk '{ print $1 }'
+@
+
+## Squash
+Finally, we need a program that takes uses the set sizes and the words to squash sets of anagrams to lines.
+All programs presented so far have been interpreted, without the additional step of compiling a source code file to an executable program.
+For the sake of the example, the final program, `squash`, is implemented in C++.
+
+It takes two arguments: the file with the counts, and the list of words.
+<<squash.cpp>>=
+<<Includes>>
+<<Helper functions>>
+int main(int argc, char* argv[])
+{
+        if (argc < 3) return 1;
+        std::ifstream counts{argv[1]};
+        if (!counts) return 2;
+        std::ifstream words{argv[2]};
+        if (!words) return 3;
+
+        <<Squash words using counts>>
+}
+@
+<<Squash words using counts>>=
+size_t n;
+while (counts >> n)
+        if (n > 1) {<<Squash `n` words>>}
+        else {<<Ignore one line>>}
+@
+
+<<Squash `n` words>>=
+copy_line(words, std::cout);
+for (size_t i = 1; words && i < n; ++i) {
+        std::cout.put(' ');
+        copy_line(words, std::cout);
+}
+std::cout.put('\n');
+@
+
+<<Ignore one line>>=
+words.ignore(std::numeric_limits<std::streamsize>::max(),
+             '\n');
+@
+
+<<Helper functions>>=
+<<Definition of `copy_line()`>>
+@
+
+<<Input stream type>>=
+typename
+@
+<<Output stream type>>=
+typename
+@
+
+<<Definition of `copy_line()`>>=
+template< <<Input stream type>> I,
+          <<Output stream type>> O >
+void copy_line(I& in, O& out)
+{
+        in.get(*out.rdbuf());
+        in.ignore();
+}
+
+<<Includes>>=
+#include <iostream>
+#include <fstream>
+#include <limits>
+@
 
 Get 
 [source](https://github.com/borisvassilev/lir-tutorial/blob/master/docs/7/anagrams.lir)

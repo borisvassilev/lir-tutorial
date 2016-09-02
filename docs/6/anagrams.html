@@ -105,16 +105,24 @@ $(name).html: $(name).lir
 <div class="codechunk">
 <p><span id="NW0-1pYc1X-1" class="defn"><span class="chunknr">C2:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
-<span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1pYc1X-1-u1" href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫</span> \
-        | <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1pYc1X-1-u2" href="#NW0-4UzD4N-1">Delete 's at the end of words</a><span style="white-space:nowrap"> </span>⟫</span> \
+<span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1pYc1X-1-u1" href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫</span> \
+        | <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1pYc1X-1-u2" href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫</span> \
         | <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1pYc1X-1-u3" href="#NW0-3HloOv-1">Sort, leaving only unique entries</a><span style="white-space:nowrap"> </span>⟫</span>
 </pre>
 ◼
 </div>
 <p>The code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫</span></span> is used to define the pipe that cleans the dictionary file. It is a root chunk: it is not referenced by name in any other code chunk. It contains references to other code chunks by name.</p>
-<p>The first chunk referenced above is <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫</span></span>. It is a call to a SWI-Prolog script that converts all letters to lower case.</p>
+<p>The first chunk referenced above is <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫</span></span>. To delete words with apostrophes, we use <code>sed</code>:</p>
 <div class="codechunk">
-<p><span id="NW0-46TBz6-1" class="defn"><span class="chunknr">C3:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
+<p><span id="NW0-4aO4N1-1" class="defn"><span class="chunknr">C3:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
+<pre>
+sed -n &quot;/'/!p&quot;
+</pre>
+◼
+</div>
+<p>Then comes <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫</span></span>. It is a call to a SWI-Prolog script that converts all letters to lower case.</p>
+<div class="codechunk">
+<p><span id="NW0-46TBz6-1" class="defn"><span class="chunknr">C4:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-46TBz6-1">Set all letters to lower case</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
 <pre>
 <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-46TBz6-1-u1" href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫</span> to-lower-case.prolog
 </pre>
@@ -122,7 +130,7 @@ $(name).html: $(name).lir
 </div>
 <p>The script <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫</span></span> has to be declared as a dependency of the Bash script that uses it:</p>
 <div class="codechunk">
-<p><span id="NW0-3dMVig-1" class="defn"><span class="chunknr">C4:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span><span class="chunkdefs"><br> definition continued in <a href="#NW0-3dMVig-2">↓<span style="white-space:nowrap"> </span>C9</a> + <a href="#NW0-3dMVig-3">⇣<span style="white-space:nowrap"> </span>C11</a></span></p>
+<p><span id="NW0-3dMVig-1" class="defn"><span class="chunknr">C5:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span><span class="chunkdefs"><br> definition continued in <a href="#NW0-3dMVig-2">↓<span style="white-space:nowrap"> </span>C9</a> + <a href="#NW0-3dMVig-3">⇣<span style="white-space:nowrap"> </span>C11</a></span></p>
 <pre>
 clean-en-dict.sh: to-lower-case.prolog
 
@@ -131,7 +139,7 @@ clean-en-dict.sh: to-lower-case.prolog
 </div>
 <p>The SWI-Prolog script reads all input, converts it to lower case, and writes it to output.</p>
 <div class="codechunk">
-<p><span id="NW0-2p6ucA-1" class="defn"><span class="chunknr">C5:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<p><span id="NW0-2p6ucA-1" class="defn"><span class="chunknr">C6:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
 main :-
         read_string(current_input, _, Input),
@@ -142,20 +150,13 @@ main :-
 </div>
 <p>To safely run this and any Prolog program that defines a <code>main</code>, we can do:</p>
 <div class="codechunk">
-<p><span id="NW0-40OfWs-1" class="defn"><span class="chunknr">C6:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-46TBz6-1">C3</a></span></p>
+<p><span id="NW0-40OfWs-1" class="defn"><span class="chunknr">C7:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-46TBz6-1">C4</a></span></p>
 <pre>
 swipl -q -O -g 'main,halt' -t 'halt(1)'
 </pre>
 ◼
 </div>
-<p>In the next component of the pipeline, a call to <code>sed</code> removes all trailing “’s”.</p>
-<div class="codechunk">
-<p><span id="NW0-4UzD4N-1" class="defn"><span class="chunknr">C7:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4UzD4N-1">Delete ’s at the end of words</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
-<pre>
-sed &quot;s/'s$//&quot;
-</pre>
-◼
-</div>
+<p>While it is not strictly necessary to define this in a code chunk of its own, this code chunk might prove useful later, if we have to run another SWI-Prolog script.</p>
 <p>At the end, everything is sorted, leaving only unique entries.</p>
 <div class="codechunk">
 <p><span id="NW0-3HloOv-1" class="defn"><span class="chunknr">C8:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3HloOv-1">Sort, leaving only unique entries</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
@@ -166,7 +167,7 @@ sort --unique
 </div>
 <p>We define the transformation from the original file <code>en-dict</code> to the cleaned <code>en-words</code> as another rule:</p>
 <div class="codechunk">
-<p><span id="NW0-3dMVig-2" class="defn"><span class="chunknr">C9:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-2">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-1">⇧<span style="white-space:nowrap"> </span>C4</a></span></p>
+<p><span id="NW0-3dMVig-2" class="defn"><span class="chunknr">C9:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-2">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-1">⇧<span style="white-space:nowrap"> </span>C5</a></span></p>
 <pre>
 en-words: en-dict clean-en-dict.sh
 	bash clean-en-dict.sh &lt; $&lt; &gt; $@
@@ -203,9 +204,9 @@ en-words: en-dict clean-en-dict.sh
 </div>
 <div class="listingcontents">
 <pre>
-  86862 en-words
+  86770 en-words
  119095 en-dict
- 205957 total
+ 205865 total
 </pre>
 </div>
 <div class="listingmeta">
