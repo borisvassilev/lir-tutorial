@@ -22,8 +22,8 @@ letter capitalized or suffixed by an "'s".  To get rid of these duplicates,
 we define a bash script.  It contains three components in a pipe:
 
 <<clean-en-dict.sh>>=
-<<Set all letters to lower case>> \
-        | <<Delete 's at the end of words>> \
+<<Delete all words with apostrophes>> \
+        | <<Set all letters to lower case>> \
         | <<Sort, leaving only unique entries>>
 @
 The code chunk [[<<clean-en-dict.sh>>]] is used to define the pipe that
@@ -31,7 +31,14 @@ cleans the dictionary file. It is a root chunk: it is not referenced by
 name in any other code chunk. It contains references to other code chunks
 by name.
 
-The first chunk referenced above is [[<<Set all letters to lower case>>]].
+The first chunk referenced above is
+[[<<Delete all words with apostrophes>>]].
+To delete words with apostrophes, we use `sed`:
+<<Delete all words with apostrophes>>=
+sed -n "/'/!p"
+@
+
+Then comes [[<<Set all letters to lower case>>]].
 It is a call to a SWI-Prolog script that converts all letters to lower
 case.
 <<Set all letters to lower case>>=
@@ -55,12 +62,9 @@ To safely run this and any Prolog program that defines a `main`, we can do:
 <<Run SWI-Prolog script>>=
 swipl -q -O -g 'main,halt' -t 'halt(1)'
 @
-
-In the next component of the pipeline, a call to `sed` removes all trailing
-"'s".
-<<Delete 's at the end of words>>=
-sed "s/'s$//"
-@
+While it is not strictly necessary to define this in a code chunk of its
+own, this code chunk might prove useful later, if we have to run another
+SWI-Prolog script.
 
 At the end, everything is sorted, leaving only unique entries.
 <<Sort, leaving only unique entries>>=

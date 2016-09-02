@@ -57,7 +57,7 @@ en-set-sizes: set-sizes.sh en-sorted-signed
 	bash $^ > $@
 
 en-words-sorted-by-signature: en-sorted-signed
-	cut --field=2
+	cut --field=2 $^ > $@
 
 @
 Usually, avoid evaluating standard command line tools directly in the rules.
@@ -68,6 +68,8 @@ In this isolated case, it is fine to leave it like this.
 en-anagram-sets: squash en-set-sizes en-words-sorted-by-signature
 	./$^ > $@
 
+@
+<<:result en-anagram-sets>>=
 @
 This is it!
 This leaves us with a question: why didn't we generate the rules from the diagram, or the diagram from the rules?
@@ -88,7 +90,7 @@ main :-
                 close(In)).
 @
 
-To output signatures, we [read from the input stream line by line](http://eu.swi-prolog.org/pldoc/doc_for?object=read_line_to_codes/2) (because each word is on a line of its own), sort the letters of the word [without removing duplicates](http://eu.swi-prolog.org/pldoc/doc_for?object=msort/2), and write the sorted letters to the output stream:
+To output signatures, we [read from the input stream line by line](http://eu.swi-prolog.org/pldoc/doc_for?object=read_line_to_codes/2) (because each word is on a line of its own), sort the letters of the word [without removing duplicates](http://eu.swi-prolog.org/pldoc/doc_for?object=msort/2), and write the sorted letters to the output stream.
 <<sign.prolog>>=
 output_signatures(In, Out) :-
         read_line_to_codes(In, Word),
@@ -113,7 +115,7 @@ paste "$1" "$2" \
         | sort --key=1 --stable
 @
 
-## Anagram sets
+## Anagram set sizes
 First, we have to generate the size of each set of anagrams.
 Because the file `en-sorted-signed` is sorted by signatures (its first column), it is enough to extract the first column and count the number of occurences of the same line.
 For this, we use `cut` and `uniq --count`.
@@ -122,13 +124,74 @@ For reasons shouded in mistery, the output of `uniq --count` is a bit unconventi
 Instead of using columns separated by a tab (or any other delimiter), it outputs the counts in a right-justified, space-padded column, separated from the next column with a single space.
 We will use Awk to get the numbers only.
 <<set-sizes.sh>>=
-cut --fields=1 \
+cut --fields=1 "$1" \
         | uniq --count \
         | awk '{ print $1 }'
 @
 
+## Squash
 Finally, we need a program that takes uses the set sizes and the words to squash sets of anagrams to lines.
 All programs presented so far have been interpreted, without the additional step of compiling a source code file to an executable program.
 For the sake of the example, the final program, `squash`, is implemented in C++.
 
 It takes two arguments: the file with the counts, and the list of words.
+<<squash.cpp>>=
+<<Includes>>
+<<Helper functions>>
+int main(int argc, char* argv[])
+{
+        if (argc < 3) return 1;
+        std::ifstream counts{argv[1]};
+        if (!counts) return 2;
+        std::ifstream words{argv[2]};
+        if (!words) return 3;
+
+        <<Squash words using counts>>
+}
+@
+<<Squash words using counts>>=
+size_t n;
+while (counts >> n)
+        if (n > 1) {<<Squash `n` words>>}
+        else {<<Ignore one line>>}
+@
+
+<<Squash `n` words>>=
+copy_line(words, std::cout);
+for (size_t i = 1; words && i < n; ++i) {
+        std::cout.put(' ');
+        copy_line(words, std::cout);
+}
+std::cout.put('\n');
+@
+
+<<Ignore one line>>=
+words.ignore(std::numeric_limits<std::streamsize>::max(),
+             '\n');
+@
+
+<<Helper functions>>=
+<<Definition of `copy_line()`>>
+@
+
+<<Input stream type>>=
+typename
+@
+<<Output stream type>>=
+typename
+@
+
+<<Definition of `copy_line()`>>=
+template< <<Input stream type>> I,
+          <<Output stream type>> O >
+void copy_line(I& in, O& out)
+{
+        in.get(*out.rdbuf());
+        in.ignore();
+}
+
+<<Includes>>=
+#include <iostream>
+#include <fstream>
+#include <limits>
+@
