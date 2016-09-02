@@ -33,7 +33,7 @@ by name.
 
 The first chunk referenced above is
 [[<<Delete all words with apostrophes>>]].
-To delete words with apostrophes, we use `sed`:
+To to this, we use `sed`:
 <<Delete all words with apostrophes>>=
 sed -n "/'/!p"
 @

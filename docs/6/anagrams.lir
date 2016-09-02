@@ -191,7 +191,7 @@ by name.
 
 The first chunk referenced above is
 [[<<Delete all words with apostrophes>>]].
-To delete words with apostrophes, we use `sed`:
+To to this, we use `sed`:
 <<Delete all words with apostrophes>>=
 sed -n "/'/!p"
 @
@@ -208,8 +208,11 @@ of the Bash script that uses it:
 clean-en-dict.sh: to-lower-case.prolog
 
 @
-The SWI-Prolog script reads all input, converts it to lower case, and
-writes it to output.
+The SWI-Prolog script reads all input, [converts it to lower
+case](http://eu.swi-prolog.org/pldoc/doc_for?object=string_lower/2), and
+writes it to output.  I decided to use SWI-Prolog for this because it
+can deal with Unicode, and because you should have it on your machine if
+Lir is installed.
 <<to-lower-case.prolog>>=
 main :-
         read_string(current_input, _, Input),

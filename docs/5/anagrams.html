@@ -92,7 +92,7 @@ $(name).html: $(name).lir
 <p>I will use <a href="/usr/share/dict/words">the dictionary available with the Linux distribution</a>. This file was copied to the working directory under the name <code>en-dict</code>, and declared as an input file (source).</p>
 <div id="NW0-1y56Hy-1" class="lirdisplay">
 <div class="lirsource">
-<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/boris/code/lir-tutorial/docs/5/.lir/en-dict"><code>en-dict</code></a></span>
+<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/5/.lir/en-dict"><code>en-dict</code></a></span>
 </div>
 </div>
 <p>The last two lines are the first example of a special code chunk that declares a source (input data) for our work flow. The name of the code chunk must begin with the string “:source”, followed by a single space character, and a path to the file. The path may be an absolute path, but it is much easier to use a path relative to the working directory.</p>
@@ -107,7 +107,7 @@ $(name).html: $(name).lir
 ◼
 </div>
 <p>The code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫</span></span> is used to define the pipe that cleans the dictionary file. It is a root chunk: it is not referenced by name in any other code chunk. It contains references to other code chunks by name.</p>
-<p>The first chunk referenced above is <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫</span></span>. To delete words with apostrophes, we use <code>sed</code>:</p>
+<p>The first chunk referenced above is <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫</span></span>. To to this, we use <code>sed</code>:</p>
 <div class="codechunk">
 <p><span id="NW0-4aO4N1-1" class="defn"><span class="chunknr">C3:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
 <pre>
@@ -132,7 +132,7 @@ clean-en-dict.sh: to-lower-case.prolog
 </pre>
 <span class="chunknext"><a href="#NW0-3dMVig-2">⇩<span style="white-space:nowrap"> </span>C9</a></span>
 </div>
-<p>The SWI-Prolog script reads all input, converts it to lower case, and writes it to output.</p>
+<p>The SWI-Prolog script reads all input, <a href="http://eu.swi-prolog.org/pldoc/doc_for?object=string_lower/2">converts it to lower case</a>, and writes it to output. I decided to use SWI-Prolog for this because it can deal with Unicode, and because you should have it on your machine if Lir is installed.</p>
 <div class="codechunk">
 <p><span id="NW0-2p6ucA-1" class="defn"><span class="chunknr">C6:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
@@ -195,7 +195,7 @@ en-words: en-dict clean-en-dict.sh
 <div id="NW0-1Kvowe-1" class="lirdisplay">
 <div class="lirlisting">
 <div class="listingheader">
-<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/boris/code/lir-tutorial/docs/5/.lir/en-sizes"><code>en-sizes</code></a></span>
+<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/5/.lir/en-sizes"><code>en-sizes</code></a></span>
 </div>
 <div class="listingcontents">
 <pre>

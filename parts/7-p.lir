@@ -1,10 +1,14 @@
 # Anagrams
-By now we have covered all the basics of using Lir.
-Finally, let's apply Lir to solve the problem of finding anagrams in the English language.
-From here on, we move a bit faster, as there is less to explain.
+By now we have covered all the basics of using Lir.  Finally, let's
+apply Lir to solve the problem of finding anagrams in the English
+language, as promised.  From here on, we move a bit faster, as there is
+less to explain.
 
-We will implement the idea presented earlier: see [Aim](#aim) (this is a cross-reference to a section heading, as described in the [Pandoc manual](http://pandoc.org/MANUAL.html#header-identifiers).
-Here is a diagram of the complete data flow of our implementation (data objects are written in small letters and DATA TRANSFORMATIONS are in all caps):
+We will implement the idea presented earlier: see [Aim](#aim) (this is a
+cross-reference to a section heading, as described in the [Pandoc
+manual](http://pandoc.org/MANUAL.html#header-identifiers).  Here is a
+diagram of the complete data flow of our implementation (data objects
+are written in small letters and DATA TRANSFORMATIONS are in all caps):
 <<: Data flow for finding anagrams>>=
          +--< words >--+
          |             |
@@ -38,9 +42,13 @@ COUNT RUNS                  |
                 v
            anagram-sets
 @
-The word "squash", as in "writing consecutive lines with the same signature to a space-separated list of anagrams on a line", comes from the discussion of this problem in "Programming Pearls" [@bentley1986programming].
+The word "squash" means "writing consecutive lines with the same
+signature to a space-separated list of anagrams on a line".  This use of
+the word comes from the discussion of this problem in "Programming
+Pearls" [@bentley1986programming].
 
-To make this into a work flow that can be evaluated, we start by declaring the dependencies and rules:
+To make this into a work flow that can be evaluated, we start by
+declaring the dependencies and rules:
 <<:make>>=
 en-signatures: sign.prolog en-words
 	<<Run SWI-Prolog script>> $^ > $@
@@ -49,7 +57,8 @@ en-sorted-signed: paste-and-sort.sh en-signatures en-words
 	bash $^ > $@
 
 @
-Note that here, we have put `PASTE` and `SORT BY SIGNATURES` from the diagram above in the same step, because there is no reason not to.
+Note that here, we have put `PASTE` and `SORT BY SIGNATURES` from the
+diagram above in the same step, because there is no reason not to.
 
 Similarly, we put `COLUMN 1` and `COUNT RUNS` in the same rule.
 <<:make>>=
@@ -60,28 +69,34 @@ en-words-sorted-by-signature: en-sorted-signed
 	cut --field=2 $^ > $@
 
 @
-Usually, avoid evaluating standard command line tools directly in the rules.
-The reason is that if the rules change, Lir will not notice, because there is no executable code (code in non-special root chunks) that has changed.
-In this isolated case, it is fine to leave it like this.
- 
+Usually, avoid evaluating standard command line tools directly in the
+rules.  The reason is that if the rules change, Lir will not notice,
+because there is no executable code (code in non-special root chunks)
+that has changed.  In this isolated case, it is fine to leave it like
+this.
+
 <<:make>>=
 en-anagram-sets: squash en-set-sizes en-words-sorted-by-signature
 	./$^ > $@
 
 @
-<<:result en-anagram-sets>>=
-@
 This is it!
-This leaves us with a question: why didn't we generate the rules from the diagram, or the diagram from the rules?
-Both are definitely doable, and probably not a bad idea; however, this would mean still more programs that would have to be involved in this work flow.
-It is not in the scope of this tutorial, but a good exercise for the reader.
+
+This leaves us with a question: why didn't we generate the rules from
+the diagram, or the diagram from the rules?  Both are definitely doable,
+and probably not a bad idea.  However, this would mean still more
+programs that would have to be involved in this work flow.  It is not in
+the scope of this tutorial, but a good exercise for the reader.
 
 ## Generate signatures
-We need signatures such that words that are anagrams of each other have the same signature.
-The approach we use here has been independently discovered by many programmers: if you sort the letters of two anagrams, you get the same result.
+We need signatures such that words that are anagrams of each other have
+the same signature.  The approach we use here has been independently
+discovered by many programmers: if you sort the letters of two anagrams,
+you get the same result.
 
-To generate the signatures, we use Prolog again.
-This program opens for reading the file passed as its first command line argument, and writes all signatures to standard output:
+To generate the signatures, we use Prolog again.  This program opens for
+reading the file passed as its first command line argument, and writes
+all signatures to standard output:
 <<sign.prolog>>=
 main :-
         current_prolog_flag(argv, [Words_file|_]),
@@ -90,7 +105,12 @@ main :-
                 close(In)).
 @
 
-To output signatures, we [read from the input stream line by line](http://eu.swi-prolog.org/pldoc/doc_for?object=read_line_to_codes/2) (because each word is on a line of its own), sort the letters of the word [without removing duplicates](http://eu.swi-prolog.org/pldoc/doc_for?object=msort/2), and write the sorted letters to the output stream.
+To output signatures, we [read from the input stream line by
+line](http://eu.swi-prolog.org/pldoc/doc_for?object=read_line_to_codes/2)
+(because each word is on a line of its own), sort the letters of the
+word [without removing
+duplicates](http://eu.swi-prolog.org/pldoc/doc_for?object=msort/2), and
+write the sorted letters to the output stream.
 <<sign.prolog>>=
 output_signatures(In, Out) :-
         read_line_to_codes(In, Word),
@@ -101,28 +121,38 @@ output_signatures(In, Out) :-
                 output_signatures(In, Out)
         ).
 @
-This last code chunk is an example of a code chunk continuation.
-If a code chunk with the same name already appeared earlier in the Lir source file, the contents will be appended to it.
-Interrupting a code chunk like this is the Lir equivalent of a comment block within a source code file.
+This last code chunk is an example of a code chunk continuation.  If a
+code chunk with the same name already appeared earlier in the Lir source
+file, the contents will be appended to it.  Interrupting a code chunk
+like this is the Lir equivalent of a comment block within a source code
+file.
 
 ## Sort by signatures
-This will be a Bash script that uses the standard command line tools `paste` and `sort`.
-`Paste` will take two files with the same number of lines, and merge them in two columns separated by a tab.
-We use `sort` with two options: `--key=1` says that it should sort by the value in the first column only, and `--stable` says that it sould ignore the rest of the line.
-Because the second column is already sorted, adding the option `--stable` has no effect on the final result; however, it makes our intentions clear, and happens to do a bit less work (so it actually runs faster).
+This will be a Bash script that uses the standard command line tools
+`paste` and `sort`.  `Paste` will take two files with the same number of
+lines, and merge them in two columns separated by a tab.  We use `sort`
+with two options: `--key=1` says that it should sort by the value in the
+first column only, and `--stable` says that it sould ignore the rest of
+the line.  Because the second column is already sorted, adding the
+option `--stable` has no effect on the final result; however, it makes
+our intentions clear, and happens to do a bit less work (it even runs
+slightly faster).
 <<paste-and-sort.sh>>=
 paste "$1" "$2" \
         | sort --key=1 --stable
 @
 
 ## Anagram set sizes
-First, we have to generate the size of each set of anagrams.
-Because the file `en-sorted-signed` is sorted by signatures (its first column), it is enough to extract the first column and count the number of occurences of the same line.
-For this, we use `cut` and `uniq --count`.
+First, we have to generate the size of each set of anagrams.  Because
+the file `en-sorted-signed` is sorted by signatures (its first column),
+it is enough to extract the first column and count the number of
+occurences of the same line.  For this, we use `cut` and `uniq --count`.
 
-For reasons shouded in mistery, the output of `uniq --count` is a bit unconventional and cannot be configured.
-Instead of using columns separated by a tab (or any other delimiter), it outputs the counts in a right-justified, space-padded column, separated from the next column with a single space.
-We will use Awk to get the numbers only.
+For reasons shouded in mistery, the output of `uniq --count` is a bit
+unconventional and cannot be configured.  Instead of using columns
+separated by a tab (or any other delimiter), it outputs the counts in a
+right-justified, space-padded column, separated from the next column
+with a single space.  We will use Awk to get the numbers only.
 <<set-sizes.sh>>=
 cut --fields=1 "$1" \
         | uniq --count \
@@ -130,9 +160,11 @@ cut --fields=1 "$1" \
 @
 
 ## Squash
-Finally, we need a program that takes uses the set sizes and the words to squash sets of anagrams to lines.
-All programs presented so far have been interpreted, without the additional step of compiling a source code file to an executable program.
-For the sake of the example, the final program, `squash`, is implemented in C++.
+Finally, we need a program that takes uses the set sizes and the words
+to squash sets of anagrams to lines.  All programs presented so far have
+been interpreted, without the additional step of compiling a source code
+file to an executable program.  For the sake of the example, the final
+program, `squash`, is implemented in C++.
 
 It takes two arguments: the file with the counts, and the list of words.
 <<squash.cpp>>=
@@ -149,6 +181,25 @@ int main(int argc, char* argv[])
         <<Squash words using counts>>
 }
 @
+You should notice that here, we define the source code file
+`squash.cpp`, but in the rules declared earlier, we used the compiled
+program `squash`.  This works because Make knows how to [compile most
+common programming
+languages](https://www.gnu.org/software/make/manual/html_node/Implicit-Rules.html#Implicit-Rules).
+An added bonus is that we don't say which C++ compiler should be used to
+compile `squash.cpp`, and let Make choose it.  This adds a little bit of
+portability to the work flow defined in this Lir source file.
+
+We need however to add a flag for C++ compilation, to make sure that a
+relatively recent C++ standard is used:
+<<:make>>=
+CXXFLAGS += -std=c++0x
+@
+
+To squas words, we read one set size at a time from `counts`.  If the
+set size is greater than 1, we squash that number of lines to a single
+line.  Otherwise, it is exactly 1, and we ignore a single line from
+`words`.
 <<Squash words using counts>>=
 size_t n;
 while (counts >> n)
@@ -156,6 +207,9 @@ while (counts >> n)
         else {<<Ignore one line>>}
 @
 
+To squash `n` words, we put the first word on a line, then add a space
+and another words, until we run out of words in this set of anagrams; at
+that point, we end the line.
 <<Squash `n` words>>=
 copy_line(words, std::cout);
 for (size_t i = 1; words && i < n; ++i) {
@@ -165,22 +219,24 @@ for (size_t i = 1; words && i < n; ++i) {
 std::cout.put('\n');
 @
 
+To ignore a single line, we use
+[`std::basic_istream::ignore()`](http://en.cppreference.com/w/cpp/io/basic_istream/ignore),
+with a new line as the delimiter.
 <<Ignore one line>>=
 words.ignore(std::numeric_limits<std::streamsize>::max(),
              '\n');
 @
 
+We need a single helper function that copies one line from an input
+stream to an output stream, dropping the new line.
 <<Helper functions>>=
 <<Definition of `copy_line()`>>
 @
 
-<<Input stream type>>=
-typename
-@
-<<Output stream type>>=
-typename
-@
-
+This is a template function not only because we want to be fancy
+Committing to a type, especially with the C++ Standard Library types, is
+both error-prone and requires a lot of typing.  Instead, we let the
+compiler decide if the call to `copy_line()` works for this definition.
 <<Definition of `copy_line()`>>=
 template< <<Input stream type>> I,
           <<Output stream type>> O >
@@ -189,9 +245,65 @@ void copy_line(I& in, O& out)
         in.get(*out.rdbuf());
         in.ignore();
 }
+@
 
+This is an example of using literate programming to address a perceived
+short-comming in the programming language.  While discussed for many
+years, there is still no official support for "concepts" in all C++
+compilers.  In other words, it is possible to tell the compiler that the
+template types need to conform to a certain specification.
+These two definitions document our intentions:
+<<Input stream type>>=
+typename
+@
+<<Output stream type>>=
+typename
+@
+
+Finally, we need `iostream` for writing to standard output, `fstream`
+for reading from files, and `limits` for the maximum number of
+characters that can be skipped at once.
 <<Includes>>=
 #include <iostream>
 #include <fstream>
 #include <limits>
 @
+
+Now, we can query the plain text database that we have generated in
+`en-anagram-sets`.  For example, to see which are the largest sets of
+anagrams, using Awk:
+<<:make>>=
+largest-anagram-sets: find-largest-anagram-sets.awk en-anagram-sets
+	awk -f $^ > $@
+
+<<find-largest-anagram-sets.awk>>=
+BEGIN { max = 2 }
+{       if (NF > max) {
+                split("", sets)
+        }
+        if (NF >= max) {
+                sets[$0] = 0
+                max = NF
+        }
+}
+END {
+        for (s in sets) { print s }
+}
+@
+
+<<:listing largest-anagram-sets>>=
+title: The largest set(s) of anagrams
+caption: There is a set of 8 anagrams!
+@
+Note that I added the caption to this listing only after I generated the
+listing and had a chance to look at it.  This is how I prefer to use
+Lir:
+
+#. Generate a result;
+#. Look at the result;
+#. Document the result;
+#. Decide what the next step will be;
+#. Implement the next step;
+#. GOTO 1.
+
+This concludes the tutorial, for now.

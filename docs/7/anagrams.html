@@ -103,7 +103,7 @@ $(name).html: $(name).lir
 <p>I will use <a href="/usr/share/dict/words">the dictionary available with the Linux distribution</a>. This file was copied to the working directory under the name <code>en-dict</code>, and declared as an input file (source).</p>
 <div id="NW0-1y56Hy-1" class="lirdisplay">
 <div class="lirsource">
-<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/boris/code/lir-tutorial/docs/7/.lir/en-dict"><code>en-dict</code></a></span>
+<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/7/.lir/en-dict"><code>en-dict</code></a></span>
 </div>
 </div>
 <p>The last two lines are the first example of a special code chunk that declares a source (input data) for our work flow. The name of the code chunk must begin with the string “:source”, followed by a single space character, and a path to the file. The path may be an absolute path, but it is much easier to use a path relative to the working directory.</p>
@@ -118,7 +118,7 @@ $(name).html: $(name).lir
 ◼
 </div>
 <p>The code chunk <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-1pYc1X-1">clean-en-dict.sh</a><span style="white-space:nowrap"> </span>⟫</span></span> is used to define the pipe that cleans the dictionary file. It is a root chunk: it is not referenced by name in any other code chunk. It contains references to other code chunks by name.</p>
-<p>The first chunk referenced above is <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫</span></span>. To delete words with apostrophes, we use <code>sed</code>:</p>
+<p>The first chunk referenced above is <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫</span></span>. To to this, we use <code>sed</code>:</p>
 <div class="codechunk">
 <p><span id="NW0-4aO4N1-1" class="defn"><span class="chunknr">C3:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4aO4N1-1">Delete all words with apostrophes</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1pYc1X-1">C2</a></span></p>
 <pre>
@@ -136,14 +136,14 @@ sed -n &quot;/'/!p&quot;
 </div>
 <p>The script <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫</span></span> has to be declared as a dependency of the Bash script that uses it:</p>
 <div class="codechunk">
-<p><span id="NW0-3dMVig-1" class="defn"><span class="chunknr">C5:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span><span class="chunkdefs"><br> definition continued in <a href="#NW0-3dMVig-2">↓<span style="white-space:nowrap"> </span>C9</a> + <a href="#NW0-3dMVig-3">⇣<span style="white-space:nowrap"> </span>C11</a> + <a href="#NW0-3dMVig-4">⇣<span style="white-space:nowrap"> </span>C17</a> + <a href="#NW0-3dMVig-5">⇣<span style="white-space:nowrap"> </span>C18</a> + <a href="#NW0-3dMVig-6">⇣<span style="white-space:nowrap"> </span>C19</a></span></p>
+<p><span id="NW0-3dMVig-1" class="defn"><span class="chunknr">C5:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span><span class="chunkdefs"><br> definition continued in <a href="#NW0-3dMVig-2">↓<span style="white-space:nowrap"> </span>C9</a> + <a href="#NW0-3dMVig-3">⇣<span style="white-space:nowrap"> </span>C11</a> + <a href="#NW0-3dMVig-4">⇣<span style="white-space:nowrap"> </span>C17</a> + <a href="#NW0-3dMVig-5">⇣<span style="white-space:nowrap"> </span>C18</a> + <a href="#NW0-3dMVig-6">⇣<span style="white-space:nowrap"> </span>C19</a> + <a href="#NW0-3dMVig-7">⇣<span style="white-space:nowrap"> </span>C25</a> + <a href="#NW0-3dMVig-8">⇣<span style="white-space:nowrap"> </span>C34</a></span></p>
 <pre>
 clean-en-dict.sh: to-lower-case.prolog
 
 </pre>
 <span class="chunknext"><a href="#NW0-3dMVig-2">⇩<span style="white-space:nowrap"> </span>C9</a></span>
 </div>
-<p>The SWI-Prolog script reads all input, converts it to lower case, and writes it to output.</p>
+<p>The SWI-Prolog script reads all input, <a href="http://eu.swi-prolog.org/pldoc/doc_for?object=string_lower/2">converts it to lower case</a>, and writes it to output. I decided to use SWI-Prolog for this because it can deal with Unicode, and because you should have it on your machine if Lir is installed.</p>
 <div class="codechunk">
 <p><span id="NW0-2p6ucA-1" class="defn"><span class="chunknr">C6:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
@@ -206,7 +206,7 @@ en-words: en-dict clean-en-dict.sh
 <div id="NW0-1Kvowe-1" class="lirdisplay">
 <div class="lirlisting">
 <div class="listingheader">
-<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/boris/code/lir-tutorial/docs/7/.lir/en-sizes"><code>en-sizes</code></a></span>
+<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/7/.lir/en-sizes"><code>en-sizes</code></a></span>
 </div>
 <div class="listingcontents">
 <pre>
@@ -317,7 +317,7 @@ $ lir weave anagrams.lir
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/6/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/6/anagrams.html">final document</a></p>
 <hr />
 <h1 id="anagrams">Anagrams</h1>
-<p>By now we have covered all the basics of using Lir. Finally, let’s apply Lir to solve the problem of finding anagrams in the English language. From here on, we move a bit faster, as there is less to explain.</p>
+<p>By now we have covered all the basics of using Lir. Finally, let’s apply Lir to solve the problem of finding anagrams in the English language, as promised. From here on, we move a bit faster, as there is less to explain.</p>
 <p>We will implement the idea presented earlier: see <a href="#aim">Aim</a> (this is a cross-reference to a section heading, as described in the <a href="http://pandoc.org/MANUAL.html#header-identifiers">Pandoc manual</a>. Here is a diagram of the complete data flow of our implementation (data objects are written in small letters and DATA TRANSFORMATIONS are in all caps):</p>
 <div class="codechunk">
 <p><span id="NW0-1qz94y-1" class="defn"><span class="chunknr">C16:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1qz94y-1">: Data flow for finding anagrams</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
@@ -356,7 +356,7 @@ COUNT RUNS                  |
 </pre>
 ◼
 </div>
-<p>The word “squash”, as in “writing consecutive lines with the same signature to a space-separated list of anagrams on a line”, comes from the discussion of this problem in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">(Bentley 1986)</span>.</p>
+<p>The word “squash” means “writing consecutive lines with the same signature to a space-separated list of anagrams on a line”. This use of the word comes from the discussion of this problem in “Programming Pearls” <span class="citation" data-cites="bentley1986programming">(Bentley 1986)</span>.</p>
 <p>To make this into a work flow that can be evaluated, we start by declaring the dependencies and rules:</p>
 <div class="codechunk">
 <p><span id="NW0-3dMVig-4" class="defn"><span class="chunknr">C17:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-4">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-3">⇧<span style="white-space:nowrap"> </span>C11</a></span></p>
@@ -392,14 +392,10 @@ en-anagram-sets: squash en-set-sizes en-words-sorted-by-signature
 	./$^ &gt; $@
 
 </pre>
-◼
+<span class="chunknext"><a href="#NW0-3dMVig-7">⇩<span style="white-space:nowrap"> </span>C25</a></span>
 </div>
-<div id="NW0-1L3Ecs-1" class="lirdisplay">
-<div class="lirresult">
-<span class="resultname">Result 1:</span> <span class="resultfile"><a href="/home/boris/code/lir-tutorial/docs/7/.lir/en-anagram-sets"><code>en-anagram-sets</code></a></span>
-</div>
-</div>
-<p>This is it! This leaves us with a question: why didn’t we generate the rules from the diagram, or the diagram from the rules? Both are definitely doable, and probably not a bad idea; however, this would mean still more programs that would have to be involved in this work flow. It is not in the scope of this tutorial, but a good exercise for the reader.</p>
+<p>This is it!</p>
+<p>This leaves us with a question: why didn’t we generate the rules from the diagram, or the diagram from the rules? Both are definitely doable, and probably not a bad idea. However, this would mean still more programs that would have to be involved in this work flow. It is not in the scope of this tutorial, but a good exercise for the reader.</p>
 <h2 id="generate-signatures">Generate signatures</h2>
 <p>We need signatures such that words that are anagrams of each other have the same signature. The approach we use here has been independently discovered by many programmers: if you sort the letters of two anagrams, you get the same result.</p>
 <p>To generate the signatures, we use Prolog again. This program opens for reading the file passed as its first command line argument, and writes all signatures to standard output:</p>
@@ -431,7 +427,7 @@ output_signatures(In, Out) :-
 </div>
 <p>This last code chunk is an example of a code chunk continuation. If a code chunk with the same name already appeared earlier in the Lir source file, the contents will be appended to it. Interrupting a code chunk like this is the Lir equivalent of a comment block within a source code file.</p>
 <h2 id="sort-by-signatures">Sort by signatures</h2>
-<p>This will be a Bash script that uses the standard command line tools <code>paste</code> and <code>sort</code>. <code>Paste</code> will take two files with the same number of lines, and merge them in two columns separated by a tab. We use <code>sort</code> with two options: <code>--key=1</code> says that it should sort by the value in the first column only, and <code>--stable</code> says that it sould ignore the rest of the line. Because the second column is already sorted, adding the option <code>--stable</code> has no effect on the final result; however, it makes our intentions clear, and happens to do a bit less work (so it actually runs faster).</p>
+<p>This will be a Bash script that uses the standard command line tools <code>paste</code> and <code>sort</code>. <code>Paste</code> will take two files with the same number of lines, and merge them in two columns separated by a tab. We use <code>sort</code> with two options: <code>--key=1</code> says that it should sort by the value in the first column only, and <code>--stable</code> says that it sould ignore the rest of the line. Because the second column is already sorted, adding the option <code>--stable</code> has no effect on the final result; however, it makes our intentions clear, and happens to do a bit less work (it even runs slightly faster).</p>
 <div class="codechunk">
 <p><span id="NW0-3IsqB0-1" class="defn"><span class="chunknr">C22:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3IsqB0-1">paste-and-sort.sh</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
@@ -473,8 +469,18 @@ int main(int argc, char* argv[])
 </pre>
 ◼
 </div>
+<p>You should notice that here, we define the source code file <code>squash.cpp</code>, but in the rules declared earlier, we used the compiled program <code>squash</code>. This works because Make knows how to <a href="https://www.gnu.org/software/make/manual/html_node/Implicit-Rules.html#Implicit-Rules">compile most common programming languages</a>. An added bonus is that we don’t say which C++ compiler should be used to compile <code>squash.cpp</code>, and let Make choose it. This adds a little bit of portability to the work flow defined in this Lir source file.</p>
+<p>We need however to add a flag for C++ compilation, to make sure that a relatively recent C++ standard is used:</p>
 <div class="codechunk">
-<p><span id="NW0-cKqNx-1" class="defn"><span class="chunknr">C25:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-cKqNx-1">Squash words using counts</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1F26Kn-1">C24</a></span></p>
+<p><span id="NW0-3dMVig-7" class="defn"><span class="chunknr">C25:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-7">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-6">⇧<span style="white-space:nowrap"> </span>C19</a></span></p>
+<pre>
+CXXFLAGS += -std=c++0x
+</pre>
+<span class="chunknext"><a href="#NW0-3dMVig-8">⇩<span style="white-space:nowrap"> </span>C34</a></span>
+</div>
+<p>To squas words, we read one set size at a time from <code>counts</code>. If the set size is greater than 1, we squash that number of lines to a single line. Otherwise, it is exactly 1, and we ignore a single line from <code>words</code>.</p>
+<div class="codechunk">
+<p><span id="NW0-cKqNx-1" class="defn"><span class="chunknr">C26:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-cKqNx-1">Squash words using counts</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1F26Kn-1">C24</a></span></p>
 <pre>
 size_t n;
 while (counts &gt;&gt; n)
@@ -483,8 +489,9 @@ while (counts &gt;&gt; n)
 </pre>
 ◼
 </div>
+<p>To squash <code>n</code> words, we put the first word on a line, then add a space and another words, until we run out of words in this set of anagrams; at that point, we end the line.</p>
 <div class="codechunk">
-<p><span id="NW0-15cqTE-1" class="defn"><span class="chunknr">C26:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-15cqTE-1">Squash <code>n</code> words</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-cKqNx-1">C25</a></span></p>
+<p><span id="NW0-15cqTE-1" class="defn"><span class="chunknr">C27:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-15cqTE-1">Squash <code>n</code> words</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-cKqNx-1">C26</a></span></p>
 <pre>
 copy_line(words, std::cout);
 for (size_t i = 1; words &amp;&amp; i &lt; n; ++i) {
@@ -495,37 +502,26 @@ std::cout.put('\n');
 </pre>
 ◼
 </div>
+<p>To ignore a single line, we use <a href="http://en.cppreference.com/w/cpp/io/basic_istream/ignore"><code>std::basic_istream::ignore()</code></a>, with a new line as the delimiter.</p>
 <div class="codechunk">
-<p><span id="NW0-4Vw2WG-1" class="defn"><span class="chunknr">C27:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4Vw2WG-1">Ignore one line</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-cKqNx-1">C25</a></span></p>
+<p><span id="NW0-4Vw2WG-1" class="defn"><span class="chunknr">C28:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4Vw2WG-1">Ignore one line</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-cKqNx-1">C26</a></span></p>
 <pre>
 words.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(),
              '\n');
 </pre>
 ◼
 </div>
+<p>We need a single helper function that copies one line from an input stream to an output stream, dropping the new line.</p>
 <div class="codechunk">
-<p><span id="NW0-2tivfn-1" class="defn"><span class="chunknr">C28:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2tivfn-1">Helper functions</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1F26Kn-1">C24</a></span></p>
+<p><span id="NW0-2tivfn-1" class="defn"><span class="chunknr">C29:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-2tivfn-1">Helper functions</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1F26Kn-1">C24</a></span></p>
 <pre>
 <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-2tivfn-1-u1" href="#NW0-1MJ8Z-1">Definition of <code>copy_line()</code></a><span style="white-space:nowrap"> </span>⟫</span>
 </pre>
 ◼
 </div>
+<p>This is a template function not only because we want to be fancy Committing to a type, especially with the C++ Standard Library types, is both error-prone and requires a lot of typing. Instead, we let the compiler decide if the call to <code>copy_line()</code> works for this definition.</p>
 <div class="codechunk">
-<p><span id="NW0-3ckNVC-1" class="defn"><span class="chunknr">C29:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3ckNVC-1">Input stream type</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1MJ8Z-1">C31</a></span></p>
-<pre>
-typename
-</pre>
-◼
-</div>
-<div class="codechunk">
-<p><span id="NW0-4EKhuI-1" class="defn"><span class="chunknr">C30:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4EKhuI-1">Output stream type</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1MJ8Z-1">C31</a></span></p>
-<pre>
-typename
-</pre>
-◼
-</div>
-<div class="codechunk">
-<p><span id="NW0-1MJ8Z-1" class="defn"><span class="chunknr">C31:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1MJ8Z-1">Definition of <code>copy_line()</code></a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-2tivfn-1">C28</a></span></p>
+<p><span id="NW0-1MJ8Z-1" class="defn"><span class="chunknr">C30:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1MJ8Z-1">Definition of <code>copy_line()</code></a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-2tivfn-1">C29</a></span></p>
 <pre>
 template&lt; <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1MJ8Z-1-u1" href="#NW0-3ckNVC-1">Input stream type</a><span style="white-space:nowrap"> </span>⟫</span> I,
           <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-1MJ8Z-1-u2" href="#NW0-4EKhuI-1">Output stream type</a><span style="white-space:nowrap"> </span>⟫</span> O &gt;
@@ -534,12 +530,27 @@ void copy_line(I&amp; in, O&amp; out)
         in.get(*out.rdbuf());
         in.ignore();
 }
-
+</pre>
+◼
+</div>
+<p>This is an example of using literate programming to address a perceived short-comming in the programming language. While discussed for many years, there is still no official support for “concepts” in all C++ compilers. In other words, it is possible to tell the compiler that the template types need to conform to a certain specification. These two definitions document our intentions:</p>
+<div class="codechunk">
+<p><span id="NW0-3ckNVC-1" class="defn"><span class="chunknr">C31:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3ckNVC-1">Input stream type</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1MJ8Z-1">C30</a></span></p>
+<pre>
+typename
 </pre>
 ◼
 </div>
 <div class="codechunk">
-<p><span id="NW0-ZKEBO-1" class="defn"><span class="chunknr">C32:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-ZKEBO-1">Includes</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1F26Kn-1">C24</a></span></p>
+<p><span id="NW0-4EKhuI-1" class="defn"><span class="chunknr">C32:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-4EKhuI-1">Output stream type</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1MJ8Z-1">C30</a></span></p>
+<pre>
+typename
+</pre>
+◼
+</div>
+<p>Finally, we need <code>iostream</code> for writing to standard output, <code>fstream</code> for reading from files, and <code>limits</code> for the maximum number of characters that can be skipped at once.</p>
+<div class="codechunk">
+<p><span id="NW0-ZKEBO-1" class="defn"><span class="chunknr">C33:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-ZKEBO-1">Includes</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1F26Kn-1">C24</a></span></p>
 <pre>
 #include &lt;iostream&gt;
 #include &lt;fstream&gt;
@@ -547,6 +558,59 @@ void copy_line(I&amp; in, O&amp; out)
 </pre>
 ◼
 </div>
+<p>Now, we can query the plain text database that we have generated in <code>en-anagram-sets</code>. For example, to see which are the largest sets of anagrams, using Awk:</p>
+<div class="codechunk">
+<p><span id="NW0-3dMVig-8" class="defn"><span class="chunknr">C34:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-8">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-7">⇧<span style="white-space:nowrap"> </span>C25</a></span></p>
+<pre>
+largest-anagram-sets: find-largest-anagram-sets.awk en-anagram-sets
+	awk -f $^ &gt; $@
+
+</pre>
+◼
+</div>
+<div class="codechunk">
+<p><span id="NW0-3F73HA-1" class="defn"><span class="chunknr">C35:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3F73HA-1">find-largest-anagram-sets.awk</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+BEGIN { max = 2 }
+{       if (NF &gt; max) {
+                split(&quot;&quot;, sets)
+        }
+        if (NF &gt;= max) {
+                sets[$0] = 0
+                max = NF
+        }
+}
+END {
+        for (s in sets) { print s }
+}
+</pre>
+◼
+</div>
+<div id="NW0-1KmK2R-1" class="lirdisplay">
+<div class="lirlisting">
+<div class="listingheader">
+<span class="listingname">Listing 2:</span> <span class="listingfile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/7/.lir/largest-anagram-sets"><code>largest-anagram-sets</code></a></span>
+</div>
+<div class="listingcontents">
+<pre>
+least slate stael stale steal tales teals tesla
+</pre>
+</div>
+<div class="listingmeta">
+<span class="listingtitle">The largest set(s) of anagrams</span> <span class="listingcaption">There is a set of 8 anagrams!</span>
+</div>
+</div>
+</div>
+<p>Note that I added the caption to this listing only after I generated the listing and had a chance to look at it. This is how I prefer to use Lir:</p>
+<ol>
+<li>Generate a result;</li>
+<li>Look at the result;</li>
+<li>Document the result;</li>
+<li>Decide what the next step will be;</li>
+<li>Implement the next step;</li>
+<li>GOTO 1.</li>
+</ol>
+<p>This concludes the tutorial, for now.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/7/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/7/anagrams.html">final document</a></p>
 <hr />
 <p>This work is licenced under the terms of the GPL (see <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/COPYING">COPYING</a>).</p>
