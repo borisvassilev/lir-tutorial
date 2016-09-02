@@ -34,6 +34,7 @@
 <li><a href="#make">Make</a></li>
 <li><a href="#weave">Weave</a></li>
 </ul></li>
+<li><a href="#calculate-signatures">Calculate signatures</a></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </nav>
@@ -97,7 +98,7 @@ $(name).html: $(name).lir
 <p>I will use <a href="/usr/share/dict/words">the dictionary available with the Linux distribution</a>. This file was copied to the working directory under the name <code>en-dict</code>, and declared as an input file (source).</p>
 <div id="NW0-1y56Hy-1" class="lirdisplay">
 <div class="lirsource">
-<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/bvassile/Documents/code/lir-tutorial/.lir/en-dict"><code>en-dict</code></a></span>
+<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/boris/code/lir-tutorial/.lir/en-dict"><code>en-dict</code></a></span>
 </div>
 </div>
 <p>The last two lines are the first example of a special code chunk that declares a source (input data) for our work flow. The name of the code chunk must begin with the string “:source”, followed by a single space character, and a path to the file. The path may be an absolute path, but it is much easier to use a path relative to the working directory.</p>
@@ -122,7 +123,7 @@ $(name).html: $(name).lir
 </div>
 <p>The script <span class="quote"><span class="quoteduse">⟪<span style="white-space:nowrap"> </span><a href="#NW0-2p6ucA-1">to-lower-case.prolog</a><span style="white-space:nowrap"> </span>⟫</span></span> has to be declared as a dependency of the Bash script that uses it:</p>
 <div class="codechunk">
-<p><span id="NW0-3dMVig-1" class="defn"><span class="chunknr">C4:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span><span class="chunkdefs"><br> definition continued in <a href="#NW0-3dMVig-2">↓<span style="white-space:nowrap"> </span>C9</a> + <a href="#NW0-3dMVig-3">⇣<span style="white-space:nowrap"> </span>C11</a></span></p>
+<p><span id="NW0-3dMVig-1" class="defn"><span class="chunknr">C4:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-1">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span><span class="chunkdefs"><br> definition continued in <a href="#NW0-3dMVig-2">↓<span style="white-space:nowrap"> </span>C9</a> + <a href="#NW0-3dMVig-3">⇣<span style="white-space:nowrap"> </span>C11</a> + <a href="#NW0-3dMVig-4">⇣<span style="white-space:nowrap"> </span>C16</a> + <a href="#NW0-3dMVig-5">⇣<span style="white-space:nowrap"> </span>C18</a></span></p>
 <pre>
 clean-en-dict.sh: to-lower-case.prolog
 
@@ -142,7 +143,7 @@ main :-
 </div>
 <p>To safely run this and any Prolog program that defines a <code>main</code>, we can do:</p>
 <div class="codechunk">
-<p><span id="NW0-40OfWs-1" class="defn"><span class="chunknr">C6:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-46TBz6-1">C3</a></span></p>
+<p><span id="NW0-40OfWs-1" class="defn"><span class="chunknr">C6:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-46TBz6-1">C3</a>, <a href="#NW0-3dMVig-4">C16</a></span></p>
 <pre>
 swipl -q -O -g 'main,halt' -t 'halt(1)'
 </pre>
@@ -199,13 +200,13 @@ en-words: en-dict clean-en-dict.sh
 <div id="NW0-1Kvowe-1" class="lirdisplay">
 <div class="lirlisting">
 <div class="listingheader">
-<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/bvassile/Documents/code/lir-tutorial/.lir/en-sizes"><code>en-sizes</code></a></span>
+<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/boris/code/lir-tutorial/.lir/en-sizes"><code>en-sizes</code></a></span>
 </div>
 <div class="listingcontents">
 <pre>
-  72188 en-words
-  99171 en-dict
- 171359 total
+  86862 en-words
+ 119095 en-dict
+ 205957 total
 </pre>
 </div>
 <div class="listingmeta">
@@ -220,7 +221,7 @@ en-sizes: en-words en-dict
 	wc --lines $^ &gt; $@
 
 </pre>
-◼
+<span class="chunknext"><a href="#NW0-3dMVig-4">⇩<span style="white-space:nowrap"> </span>C16</a></span>
 </div>
 <p>In this last “:make” code chunk, I have used the <code>$^</code> Make special variable, “all prerequisites to a target”.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/4/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/4/anagrams.html">final document</a></p>
@@ -308,6 +309,67 @@ $ lir weave anagrams.lir
 <p>The final HTML document is generated and copied from <code>.lir</code> to the working directory. You can open it in your web browser (as you have been doing all along).</p>
 <p>There is a practical advantage of running the three steps – Tangle, Make, and Weave – separately. The second step, Make, can be run on a different machine: a server with enough memory to handle real-word data sets, for example. To do that, one would only have to copy the state (the <code>.lir</code> directory) to the remote server, run <code>make</code> there, and then copy back the state, with all generated results, to the local machine for Weaving.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/6/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/6/anagrams.html">final document</a></p>
+<hr />
+<h1 id="calculate-signatures">Calculate signatures</h1>
+<p>This is how we calculate signatures:</p>
+<div class="codechunk">
+<p><span id="NW0-3dMVig-4" class="defn"><span class="chunknr">C16:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-4">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-3">⇧<span style="white-space:nowrap"> </span>C11</a></span></p>
+<pre>
+en-signed: en-signatures en-words
+	paste $^ &gt; $@
+
+en-signatures: sign.pl en-words
+	<span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-3dMVig-4-u1" href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫</span> $^ &gt; $@
+
+</pre>
+<span class="chunknext"><a href="#NW0-3dMVig-5">⇩<span style="white-space:nowrap"> </span>C18</a></span>
+</div>
+<div class="codechunk">
+<p><span id="NW0-13W99o-1" class="defn"><span class="chunknr">C17:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-13W99o-1">sign.pl</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+main :-
+        current_prolog_flag(argv, [Words_file|_]),
+        setup_call_cleanup(open(Words_file, read, In),
+                output_signatures(In, current_output),
+                close(In)).
+
+output_signatures(In, Out) :-
+        read_line_to_codes(In, Word),
+        (       Word == end_of_file
+        -&gt;      true
+        ;       msort(Word, Signature),
+                format(Out, &quot;~s\n&quot;, [Signature]),
+                output_signatures(In, Out)
+        ).
+</pre>
+◼
+</div>
+<div id="NW0-4VkS4N-1" class="lirdisplay">
+<div class="lirlisting">
+<div class="listingheader">
+<span class="listingname">Listing 2:</span> <span class="listingfile"><a href="/home/boris/code/lir-tutorial/.lir/en-signed-size"><code>en-signed-size</code></a></span>
+</div>
+<div class="listingcontents">
+<pre>
+  86862  173724 1611838 en-signed
+</pre>
+</div>
+<div class="listingmeta">
+<span class="listingtitle">The file with the signed words</span>
+</div>
+</div>
+</div>
+<div class="codechunk">
+<p><span id="NW0-3dMVig-5" class="defn"><span class="chunknr">C18:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-5">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-4">⇧<span style="white-space:nowrap"> </span>C16</a></span></p>
+<pre>
+en-signed-size: en-signed
+	wc $^ &gt; $@
+
+</pre>
+◼
+</div>
+<p>And this should be it.</p>
+<p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/7/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/7/anagrams.html">final document</a></p>
 <hr />
 <p>This work is licenced under the terms of the GPL (see <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/COPYING">COPYING</a>).</p>
 <p>Copyright (c) 2016 Boris Vassilev</p>
