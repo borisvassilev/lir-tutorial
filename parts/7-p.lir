@@ -196,7 +196,7 @@ relatively recent C++ standard is used:
 CXXFLAGS += -std=c++0x
 @
 
-To squas words, we read one set size at a time from `counts`.  If the
+To squash words, we read one set size at a time from `counts`.  If the
 set size is greater than 1, we squash that number of lines to a single
 line.  Otherwise, it is exactly 1, and we ignore a single line from
 `words`.
@@ -208,7 +208,7 @@ while (counts >> n)
 @
 
 To squash `n` words, we put the first word on a line, then add a space
-and another words, until we run out of words in this set of anagrams; at
+and another word, until we run out of words in this set of anagrams; at
 that point, we end the line.
 <<Squash `n` words>>=
 copy_line(words, std::cout);
@@ -233,9 +233,9 @@ stream to an output stream, dropping the new line.
 <<Definition of `copy_line()`>>
 @
 
-This is a template function not only because we want to be fancy
+This is a template function not only because we want to be fancy.
 Committing to a type, especially with the C++ Standard Library types, is
-both error-prone and requires a lot of typing.  Instead, we let the
+very verbose, tedious, and error-prone.  Instead, we let the
 compiler decide if the call to `copy_line()` works for this definition.
 <<Definition of `copy_line()`>>=
 template< <<Input stream type>> I,
@@ -250,8 +250,8 @@ void copy_line(I& in, O& out)
 This is an example of using literate programming to address a perceived
 short-comming in the programming language.  While discussed for many
 years, there is still no official support for "concepts" in all C++
-compilers.  In other words, it is possible to tell the compiler that the
-template types need to conform to a certain specification.
+compilers.  In other words, it is not obvious how to tell the compiler
+that the template types need to conform to a certain specification.
 These two definitions document our intentions:
 <<Input stream type>>=
 typename
@@ -269,41 +269,42 @@ characters that can be skipped at once.
 #include <limits>
 @
 
+## Result
 Now, we can query the plain text database that we have generated in
-`en-anagram-sets`.  For example, to see which are the largest sets of
-anagrams, using Awk:
+`en-anagram-sets`.  For example, here is the largest set of anagrams
+that we have:
+<<:listing largest-anagram-sets>>=
+title: The largest set(s) of anagrams
+caption: There is a set of 8 anagrams!
 <<:make>>=
 largest-anagram-sets: find-largest-anagram-sets.awk en-anagram-sets
 	awk -f $^ > $@
 
-<<find-largest-anagram-sets.awk>>=
-BEGIN { max = 2 }
-{       if (NF > max) {
-                split("", sets)
-        }
-        if (NF >= max) {
-                sets[$0] = 0
-                max = NF
-        }
-}
-END {
-        for (s in sets) { print s }
-}
-@
-
-<<:listing largest-anagram-sets>>=
-title: The largest set(s) of anagrams
-caption: There is a set of 8 anagrams!
 @
 Note that I added the caption to this listing only after I generated the
 listing and had a chance to look at it.  This is how I prefer to use
 Lir:
 
-#. Generate a result;
+1. Generate a result;
 #. Look at the result;
 #. Document the result;
 #. Decide what the next step will be;
 #. Implement the next step;
 #. GOTO 1.
+
+This Awk script looks for a set of words larger than the largest set
+seen so far.  If the current set is larger than the largest set
+encountered so far, the current result is forgotten.  When a set is the
+same size as the current maximum, it is added to the final result.
+<<find-largest-anagram-sets.awk>>=
+BEGIN { max = 2 }
+{       if (NF > max) { split("", sets) }
+        if (NF >= max) {
+                sets[$0] = 0
+                max = NF
+        }
+}
+END { for (s in sets) { print s } }
+@
 
 This concludes the tutorial, for now.

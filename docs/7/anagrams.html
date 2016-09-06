@@ -39,6 +39,7 @@
 <li><a href="#sort-by-signatures">Sort by signatures</a></li>
 <li><a href="#anagram-set-sizes">Anagram set sizes</a></li>
 <li><a href="#squash">Squash</a></li>
+<li><a href="#result">Result</a></li>
 </ul></li>
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
@@ -478,7 +479,7 @@ CXXFLAGS += -std=c++0x
 </pre>
 <span class="chunknext"><a href="#NW0-3dMVig-8">⇩<span style="white-space:nowrap"> </span>C34</a></span>
 </div>
-<p>To squas words, we read one set size at a time from <code>counts</code>. If the set size is greater than 1, we squash that number of lines to a single line. Otherwise, it is exactly 1, and we ignore a single line from <code>words</code>.</p>
+<p>To squash words, we read one set size at a time from <code>counts</code>. If the set size is greater than 1, we squash that number of lines to a single line. Otherwise, it is exactly 1, and we ignore a single line from <code>words</code>.</p>
 <div class="codechunk">
 <p><span id="NW0-cKqNx-1" class="defn"><span class="chunknr">C26:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-cKqNx-1">Squash words using counts</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1F26Kn-1">C24</a></span></p>
 <pre>
@@ -489,7 +490,7 @@ while (counts &gt;&gt; n)
 </pre>
 ◼
 </div>
-<p>To squash <code>n</code> words, we put the first word on a line, then add a space and another words, until we run out of words in this set of anagrams; at that point, we end the line.</p>
+<p>To squash <code>n</code> words, we put the first word on a line, then add a space and another word, until we run out of words in this set of anagrams; at that point, we end the line.</p>
 <div class="codechunk">
 <p><span id="NW0-15cqTE-1" class="defn"><span class="chunknr">C27:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-15cqTE-1">Squash <code>n</code> words</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-cKqNx-1">C26</a></span></p>
 <pre>
@@ -519,7 +520,7 @@ words.ignore(std::numeric_limits&lt;std::streamsize&gt;::max(),
 </pre>
 ◼
 </div>
-<p>This is a template function not only because we want to be fancy Committing to a type, especially with the C++ Standard Library types, is both error-prone and requires a lot of typing. Instead, we let the compiler decide if the call to <code>copy_line()</code> works for this definition.</p>
+<p>This is a template function not only because we want to be fancy. Committing to a type, especially with the C++ Standard Library types, is very verbose, tedious, and error-prone. Instead, we let the compiler decide if the call to <code>copy_line()</code> works for this definition.</p>
 <div class="codechunk">
 <p><span id="NW0-1MJ8Z-1" class="defn"><span class="chunknr">C30:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1MJ8Z-1">Definition of <code>copy_line()</code></a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-2tivfn-1">C29</a></span></p>
 <pre>
@@ -533,7 +534,7 @@ void copy_line(I&amp; in, O&amp; out)
 </pre>
 ◼
 </div>
-<p>This is an example of using literate programming to address a perceived short-comming in the programming language. While discussed for many years, there is still no official support for “concepts” in all C++ compilers. In other words, it is possible to tell the compiler that the template types need to conform to a certain specification. These two definitions document our intentions:</p>
+<p>This is an example of using literate programming to address a perceived short-comming in the programming language. While discussed for many years, there is still no official support for “concepts” in all C++ compilers. In other words, it is not obvious how to tell the compiler that the template types need to conform to a certain specification. These two definitions document our intentions:</p>
 <div class="codechunk">
 <p><span id="NW0-3ckNVC-1" class="defn"><span class="chunknr">C31:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3ckNVC-1">Input stream type</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-1MJ8Z-1">C30</a></span></p>
 <pre>
@@ -558,34 +559,8 @@ typename
 </pre>
 ◼
 </div>
-<p>Now, we can query the plain text database that we have generated in <code>en-anagram-sets</code>. For example, to see which are the largest sets of anagrams, using Awk:</p>
-<div class="codechunk">
-<p><span id="NW0-3dMVig-8" class="defn"><span class="chunknr">C34:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-8">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-7">⇧<span style="white-space:nowrap"> </span>C25</a></span></p>
-<pre>
-largest-anagram-sets: find-largest-anagram-sets.awk en-anagram-sets
-	awk -f $^ &gt; $@
-
-</pre>
-◼
-</div>
-<div class="codechunk">
-<p><span id="NW0-3F73HA-1" class="defn"><span class="chunknr">C35:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3F73HA-1">find-largest-anagram-sets.awk</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
-<pre>
-BEGIN { max = 2 }
-{       if (NF &gt; max) {
-                split(&quot;&quot;, sets)
-        }
-        if (NF &gt;= max) {
-                sets[$0] = 0
-                max = NF
-        }
-}
-END {
-        for (s in sets) { print s }
-}
-</pre>
-◼
-</div>
+<h2 id="result">Result</h2>
+<p>Now, we can query the plain text database that we have generated in <code>en-anagram-sets</code>. For example, here is the largest set of anagrams that we have:</p>
 <div id="NW0-1KmK2R-1" class="lirdisplay">
 <div class="lirlisting">
 <div class="listingheader">
@@ -601,8 +576,17 @@ least slate stael stale steal tales teals tesla
 </div>
 </div>
 </div>
+<div class="codechunk">
+<p><span id="NW0-3dMVig-8" class="defn"><span class="chunknr">C34:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3dMVig-8">:make</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><br> <span class="chunkprev"><a href="#NW0-3dMVig-7">⇧<span style="white-space:nowrap"> </span>C25</a></span></p>
+<pre>
+largest-anagram-sets: find-largest-anagram-sets.awk en-anagram-sets
+	awk -f $^ &gt; $@
+
+</pre>
+◼
+</div>
 <p>Note that I added the caption to this listing only after I generated the listing and had a chance to look at it. This is how I prefer to use Lir:</p>
-<ol>
+<ol type="1">
 <li>Generate a result;</li>
 <li>Look at the result;</li>
 <li>Document the result;</li>
@@ -610,6 +594,21 @@ least slate stael stale steal tales teals tesla
 <li>Implement the next step;</li>
 <li>GOTO 1.</li>
 </ol>
+<p>This Awk script looks for a set of words larger than the largest set seen so far. If the current set is larger than the largest set encountered so far, the current result is forgotten. When a set is the same size as the current maximum, it is added to the final result.</p>
+<div class="codechunk">
+<p><span id="NW0-3F73HA-1" class="defn"><span class="chunknr">C35:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3F73HA-1">find-largest-anagram-sets.awk</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
+<pre>
+BEGIN { max = 2 }
+{       if (NF &gt; max) { split(&quot;&quot;, sets) }
+        if (NF &gt;= max) {
+                sets[$0] = 0
+                max = NF
+        }
+}
+END { for (s in sets) { print s } }
+</pre>
+◼
+</div>
 <p>This concludes the tutorial, for now.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/7/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/7/anagrams.html">final document</a></p>
 <hr />
