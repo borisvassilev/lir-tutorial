@@ -318,7 +318,7 @@ $ lir weave anagrams.lir
 <hr />
 <h1 id="anagrams">Anagrams</h1>
 <p>By now we have covered all the basics of using Lir. Finally, let’s apply Lir to solve the problem of finding anagrams in the English language, as promised. From here on, we move a bit faster, as there is less to explain.</p>
-<p>We will implement the idea presented earlier: see <a href="#aim">Aim</a> (this is a cross-reference to a section heading, as described in the <a href="http://pandoc.org/MANUAL.html#header-identifiers">Pandoc manual</a>. Here is a diagram of the complete data flow of our implementation (data objects are written in small letters and DATA TRANSFORMATIONS are in all caps):</p>
+<p>We will implement the idea presented earlier: see <a href="#aim">Aim</a> (this is a cross-reference to a section heading, as described in the <a href="http://pandoc.org/MANUAL.html#header-identifiers">Pandoc manual</a>). Here is a diagram of the complete data flow of our implementation (data objects are written in small letters and DATA TRANSFORMATIONS are in all caps):</p>
 <div class="codechunk">
 <p><span id="NW0-1qz94y-1" class="defn"><span class="chunknr">C16:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1qz94y-1">: Data flow for finding anagrams</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
@@ -449,7 +449,7 @@ cut --fields=1 &quot;$1&quot; \
 ◼
 </div>
 <h2 id="squash">Squash</h2>
-<p>Finally, we need a program that takes uses the set sizes and the words to squash sets of anagrams to lines. All programs presented so far have been interpreted, without the additional step of compiling a source code file to an executable program. For the sake of the example, the final program, <code>squash</code>, is implemented in C++.</p>
+<p>Finally, we need a program that uses the set sizes and the words to squash sets of anagrams to lines. All programs presented so far have been interpreted, without the additional step of compiling a source code file to an executable program. For the sake of the example, the final program, <code>squash</code>, is implemented in C++.</p>
 <p>It takes two arguments: the file with the counts, and the list of words.</p>
 <div class="codechunk">
 <p><span id="NW0-1F26Kn-1" class="defn"><span class="chunknr">C24:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1F26Kn-1">squash.cpp</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>

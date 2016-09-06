@@ -6,7 +6,7 @@ less to explain.
 
 We will implement the idea presented earlier: see [Aim](#aim) (this is a
 cross-reference to a section heading, as described in the [Pandoc
-manual](http://pandoc.org/MANUAL.html#header-identifiers).  Here is a
+manual](http://pandoc.org/MANUAL.html#header-identifiers)).  Here is a
 diagram of the complete data flow of our implementation (data objects
 are written in small letters and DATA TRANSFORMATIONS are in all caps):
 <<: Data flow for finding anagrams>>=
@@ -160,7 +160,7 @@ cut --fields=1 "$1" \
 @
 
 ## Squash
-Finally, we need a program that takes uses the set sizes and the words
+Finally, we need a program that uses the set sizes and the words
 to squash sets of anagrams to lines.  All programs presented so far have
 been interpreted, without the additional step of compiling a source code
 file to an executable program.  For the sake of the example, the final
