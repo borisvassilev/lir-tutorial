@@ -219,7 +219,8 @@ main :-
         string_lower(Input, Output),
         format(current_output, "~s", [Output]).
 @
-To safely run this and any Prolog program that defines a `main`, we can do:
+To [safely run this](http://eu.swi-prolog.org/pldoc/man?section=runoptions),
+or any other Prolog program that defines a `main`, we can do:
 <<Run SWI-Prolog script>>=
 swipl -q -O -g 'main,halt' -t 'halt(1)'
 @
@@ -250,12 +251,12 @@ The first line of this rule reads:
 The second line of the rule reads:
 
 > Run the bash script `clean-en-dict.sh` to convert the first prerequisite
-> `en-dict` (written as `$<`) to create the target `en-words` (written as
-> `$@`).
+> `en-dict` (written as "`$<`") to create the target `en-words` (written as
+> "`$@`").
 
 Note the use of the two [Make automatic
 variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html#Automatic-Variables):
-`$<` stands for "the first prerequisite, and `$@` stands for "the target".
+"`$<`" stands for "the first prerequisite", and "`$@`" stands for "the target".
 It is not strictly necessary to use automatic variables in the rules we
 define with Lir.  Instead, the rule could have just as well been written
 with the full file names:
@@ -284,7 +285,7 @@ en-sizes: en-words en-dict
 	wc --lines $^ > $@
 
 @
-In this last ":make" code chunk, I have used the `$^` Make special
+In this last ":make" code chunk, I have used the "`$^`" Make special
 variable, "all prerequisites to a target".
 
 Get 
@@ -442,10 +443,10 @@ been doing all along).
 
 There is a practical advantage of running the three steps -- Tangle,
 Make, and Weave -- separately.  The second step, Make, can be run on a
-different machine: a server with enough memory to handle real-word data
-sets, for example.  To do that, one would only have to copy the state
+different machine: for example, a server with enough memory to handle
+large data sets.  To do that, one would only have to copy the state
 (the `.lir` directory) to the remote server, run `make` there, and then
-copy back the state, with all generated results, to the local machine
+copy the state with all generated results back to the local machine
 for Weaving.
 
 Get 
@@ -464,8 +465,8 @@ less to explain.
 We will implement the idea presented earlier: see [Aim](#aim) (this is a
 cross-reference to a section heading, as described in the [Pandoc
 manual](http://pandoc.org/MANUAL.html#header-identifiers)).  Here is a
-diagram of the complete data flow of our implementation (data objects
-are written in small letters and DATA TRANSFORMATIONS are in all caps):
+diagram of the complete data flow of our implementation (`data objects`
+are written in small letters and `DATA TRANSFORMATIONS` are in all caps):
 <<: Data flow for finding anagrams>>=
          +--< words >--+
          |             |
@@ -582,7 +583,8 @@ This last code chunk is an example of a code chunk continuation.  If a
 code chunk with the same name already appeared earlier in the Lir source
 file, the contents will be appended to it.  Interrupting a code chunk
 like this is the Lir equivalent of a comment block within a source code
-file.
+file (but instead of the comment interrupting the code, the code chunk
+interrupts the text).
 
 ## Sort by signatures
 This will be a Bash script that uses the standard command line tools
@@ -660,8 +662,8 @@ line.  Otherwise, it is exactly 1, and we ignore a single line from
 <<Squash words using counts>>=
 size_t n;
 while (counts >> n)
-        if (n > 1) {<<Squash `n` words>>}
-        else {<<Ignore one line>>}
+        if (n > 1) { <<Squash `n` words>> }
+        else { <<Ignore one line>> }
 @
 
 To squash `n` words, we put the first word on a line, then add a space

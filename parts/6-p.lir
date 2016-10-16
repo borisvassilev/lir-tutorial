@@ -100,8 +100,8 @@ been doing all along).
 
 There is a practical advantage of running the three steps -- Tangle,
 Make, and Weave -- separately.  The second step, Make, can be run on a
-different machine: a server with enough memory to handle real-word data
-sets, for example.  To do that, one would only have to copy the state
+different machine: for example, a server with enough memory to handle
+large data sets.  To do that, one would only have to copy the state
 (the `.lir` directory) to the remote server, run `make` there, and then
-copy back the state, with all generated results, to the local machine
+copy the state with all generated results back to the local machine
 for Weaving.

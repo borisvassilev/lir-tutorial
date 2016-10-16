@@ -7,8 +7,8 @@ less to explain.
 We will implement the idea presented earlier: see [Aim](#aim) (this is a
 cross-reference to a section heading, as described in the [Pandoc
 manual](http://pandoc.org/MANUAL.html#header-identifiers)).  Here is a
-diagram of the complete data flow of our implementation (data objects
-are written in small letters and DATA TRANSFORMATIONS are in all caps):
+diagram of the complete data flow of our implementation (`data objects`
+are written in small letters and `DATA TRANSFORMATIONS` are in all caps):
 <<: Data flow for finding anagrams>>=
          +--< words >--+
          |             |
@@ -125,7 +125,8 @@ This last code chunk is an example of a code chunk continuation.  If a
 code chunk with the same name already appeared earlier in the Lir source
 file, the contents will be appended to it.  Interrupting a code chunk
 like this is the Lir equivalent of a comment block within a source code
-file.
+file (but instead of the comment interrupting the code, the code chunk
+interrupts the text).
 
 ## Sort by signatures
 This will be a Bash script that uses the standard command line tools
@@ -203,8 +204,8 @@ line.  Otherwise, it is exactly 1, and we ignore a single line from
 <<Squash words using counts>>=
 size_t n;
 while (counts >> n)
-        if (n > 1) {<<Squash `n` words>>}
-        else {<<Ignore one line>>}
+        if (n > 1) { <<Squash `n` words>> }
+        else { <<Ignore one line>> }
 @
 
 To squash `n` words, we put the first word on a line, then add a space

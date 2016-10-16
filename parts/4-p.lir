@@ -61,7 +61,8 @@ main :-
         string_lower(Input, Output),
         format(current_output, "~s", [Output]).
 @
-To safely run this and any Prolog program that defines a `main`, we can do:
+To [safely run this](http://eu.swi-prolog.org/pldoc/man?section=runoptions),
+or any other Prolog program that defines a `main`, we can do:
 <<Run SWI-Prolog script>>=
 swipl -q -O -g 'main,halt' -t 'halt(1)'
 @
@@ -92,12 +93,12 @@ The first line of this rule reads:
 The second line of the rule reads:
 
 > Run the bash script `clean-en-dict.sh` to convert the first prerequisite
-> `en-dict` (written as `$<`) to create the target `en-words` (written as
-> `$@`).
+> `en-dict` (written as "`$<`") to create the target `en-words` (written as
+> "`$@`").
 
 Note the use of the two [Make automatic
 variables](https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html#Automatic-Variables):
-`$<` stands for "the first prerequisite, and `$@` stands for "the target".
+"`$<`" stands for "the first prerequisite", and "`$@`" stands for "the target".
 It is not strictly necessary to use automatic variables in the rules we
 define with Lir.  Instead, the rule could have just as well been written
 with the full file names:
@@ -126,5 +127,5 @@ en-sizes: en-words en-dict
 	wc --lines $^ > $@
 
 @
-In this last ":make" code chunk, I have used the `$^` Make special
+In this last ":make" code chunk, I have used the "`$^`" Make special
 variable, "all prerequisites to a target".

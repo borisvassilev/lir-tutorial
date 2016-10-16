@@ -104,7 +104,7 @@ $(name).html: $(name).lir
 <p>I will use <a href="/usr/share/dict/words">the dictionary available with the Linux distribution</a>. This file was copied to the working directory under the name <code>en-dict</code>, and declared as an input file (source).</p>
 <div id="NW0-1y56Hy-1" class="lirdisplay">
 <div class="lirsource">
-<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/7/.lir/en-dict"><code>en-dict</code></a></span>
+<span class="sourcename">S1:</span> <span class="sourcefile"><a href="/home/boris/code/lir-tutorial/docs/7/.lir/en-dict"><code>en-dict</code></a></span>
 </div>
 </div>
 <p>The last two lines are the first example of a special code chunk that declares a source (input data) for our work flow. The name of the code chunk must begin with the string “:source”, followed by a single space character, and a path to the file. The path may be an absolute path, but it is much easier to use a path relative to the working directory.</p>
@@ -155,7 +155,7 @@ main :-
 </pre>
 ◼
 </div>
-<p>To safely run this and any Prolog program that defines a <code>main</code>, we can do:</p>
+<p>To <a href="http://eu.swi-prolog.org/pldoc/man?section=runoptions">safely run this</a>, or any other Prolog program that defines a <code>main</code>, we can do:</p>
 <div class="codechunk">
 <p><span id="NW0-40OfWs-1" class="defn"><span class="chunknr">C7:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-40OfWs-1">Run SWI-Prolog script</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> Appears in <a href="#NW0-46TBz6-1">C4</a>, <a href="#NW0-3dMVig-4">C17</a></span></p>
 <pre>
@@ -189,9 +189,9 @@ en-words: en-dict clean-en-dict.sh
 </blockquote>
 <p>The second line of the rule reads:</p>
 <blockquote>
-<p>Run the bash script <code>clean-en-dict.sh</code> to convert the first prerequisite <code>en-dict</code> (written as <code>$&lt;</code>) to create the target <code>en-words</code> (written as <code>$@</code>).</p>
+<p>Run the bash script <code>clean-en-dict.sh</code> to convert the first prerequisite <code>en-dict</code> (written as “<code>$&lt;</code>”) to create the target <code>en-words</code> (written as “<code>$@</code>”).</p>
 </blockquote>
-<p>Note the use of the two <a href="https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html#Automatic-Variables">Make automatic variables</a>: <code>$&lt;</code> stands for “the first prerequisite, and <code>$@</code> stands for”the target“. It is not strictly necessary to use automatic variables in the rules we define with Lir. Instead, the rule could have just as well been written with the full file names:</p>
+<p>Note the use of the two <a href="https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html#Automatic-Variables">Make automatic variables</a>: “<code>$&lt;</code>” stands for “the first prerequisite”, and “<code>$@</code>” stands for “the target”. It is not strictly necessary to use automatic variables in the rules we define with Lir. Instead, the rule could have just as well been written with the full file names:</p>
 <div class="codechunk">
 <p><span id="NW0-3Kwao3-1" class="defn"><span class="chunknr">C10:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-3Kwao3-1">: Another way to declare the rule</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
@@ -207,7 +207,7 @@ en-words: en-dict clean-en-dict.sh
 <div id="NW0-1Kvowe-1" class="lirdisplay">
 <div class="lirlisting">
 <div class="listingheader">
-<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/7/.lir/en-sizes"><code>en-sizes</code></a></span>
+<span class="listingname">Listing 1:</span> <span class="listingfile"><a href="/home/boris/code/lir-tutorial/docs/7/.lir/en-sizes"><code>en-sizes</code></a></span>
 </div>
 <div class="listingcontents">
 <pre>
@@ -230,7 +230,7 @@ en-sizes: en-words en-dict
 </pre>
 <span class="chunknext"><a href="#NW0-3dMVig-4">⇩<span style="white-space:nowrap"> </span>C17</a></span>
 </div>
-<p>In this last “:make” code chunk, I have used the <code>$^</code> Make special variable, “all prerequisites to a target”.</p>
+<p>In this last “:make” code chunk, I have used the “<code>$^</code>” Make special variable, “all prerequisites to a target”.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/4/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/4/anagrams.html">final document</a></p>
 <hr />
 <h1 id="recap">Recap</h1>
@@ -314,12 +314,12 @@ $ lir weave anagrams.lir
 ◼
 </div>
 <p>The final HTML document is generated and copied from <code>.lir</code> to the working directory. You can open it in your web browser (as you have been doing all along).</p>
-<p>There is a practical advantage of running the three steps – Tangle, Make, and Weave – separately. The second step, Make, can be run on a different machine: a server with enough memory to handle real-word data sets, for example. To do that, one would only have to copy the state (the <code>.lir</code> directory) to the remote server, run <code>make</code> there, and then copy back the state, with all generated results, to the local machine for Weaving.</p>
+<p>There is a practical advantage of running the three steps – Tangle, Make, and Weave – separately. The second step, Make, can be run on a different machine: for example, a server with enough memory to handle large data sets. To do that, one would only have to copy the state (the <code>.lir</code> directory) to the remote server, run <code>make</code> there, and then copy the state with all generated results back to the local machine for Weaving.</p>
 <p>Get <a href="https://github.com/borisvassilev/lir-tutorial/blob/master/docs/6/anagrams.lir">source</a> and <a href="https://borisvassilev.github.io/lir-tutorial/6/anagrams.html">final document</a></p>
 <hr />
 <h1 id="anagrams">Anagrams</h1>
 <p>By now we have covered all the basics of using Lir. Finally, let’s apply Lir to solve the problem of finding anagrams in the English language, as promised. From here on, we move a bit faster, as there is less to explain.</p>
-<p>We will implement the idea presented earlier: see <a href="#aim">Aim</a> (this is a cross-reference to a section heading, as described in the <a href="http://pandoc.org/MANUAL.html#header-identifiers">Pandoc manual</a>). Here is a diagram of the complete data flow of our implementation (data objects are written in small letters and DATA TRANSFORMATIONS are in all caps):</p>
+<p>We will implement the idea presented earlier: see <a href="#aim">Aim</a> (this is a cross-reference to a section heading, as described in the <a href="http://pandoc.org/MANUAL.html#header-identifiers">Pandoc manual</a>). Here is a diagram of the complete data flow of our implementation (<code>data objects</code> are written in small letters and <code>DATA TRANSFORMATIONS</code> are in all caps):</p>
 <div class="codechunk">
 <p><span id="NW0-1qz94y-1" class="defn"><span class="chunknr">C16:</span> ⟪<span style="white-space:nowrap"> </span><a href="#NW0-1qz94y-1">: Data flow for finding anagrams</a><span style="white-space:nowrap"> </span>⟫<span style="white-space:nowrap"> </span>≡</span><span class="chunkuses"><br> root chunk</span></p>
 <pre>
@@ -426,7 +426,7 @@ output_signatures(In, Out) :-
 </pre>
 ◼
 </div>
-<p>This last code chunk is an example of a code chunk continuation. If a code chunk with the same name already appeared earlier in the Lir source file, the contents will be appended to it. Interrupting a code chunk like this is the Lir equivalent of a comment block within a source code file.</p>
+<p>This last code chunk is an example of a code chunk continuation. If a code chunk with the same name already appeared earlier in the Lir source file, the contents will be appended to it. Interrupting a code chunk like this is the Lir equivalent of a comment block within a source code file (but instead of the comment interrupting the code, the code chunk interrupts the text).</p>
 <h2 id="sort-by-signatures">Sort by signatures</h2>
 <p>This will be a Bash script that uses the standard command line tools <code>paste</code> and <code>sort</code>. <code>Paste</code> will take two files with the same number of lines, and merge them in two columns separated by a tab. We use <code>sort</code> with two options: <code>--key=1</code> says that it should sort by the value in the first column only, and <code>--stable</code> says that it sould ignore the rest of the line. Because the second column is already sorted, adding the option <code>--stable</code> has no effect on the final result; however, it makes our intentions clear, and happens to do a bit less work (it even runs slightly faster).</p>
 <div class="codechunk">
@@ -485,8 +485,8 @@ CXXFLAGS += -std=c++0x
 <pre>
 size_t n;
 while (counts &gt;&gt; n)
-        if (n &gt; 1) {<span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-cKqNx-1-u1" href="#NW0-15cqTE-1">Squash <code>n</code> words</a><span style="white-space:nowrap"> </span>⟫</span>}
-        else {<span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-cKqNx-1-u2" href="#NW0-4Vw2WG-1">Ignore one line</a><span style="white-space:nowrap"> </span>⟫</span>}
+        if (n &gt; 1) { <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-cKqNx-1-u1" href="#NW0-15cqTE-1">Squash <code>n</code> words</a><span style="white-space:nowrap"> </span>⟫</span> }
+        else { <span class="embeddeduse">⟪<span style="white-space:nowrap"> </span><a id="NW0-cKqNx-1-u2" href="#NW0-4Vw2WG-1">Ignore one line</a><span style="white-space:nowrap"> </span>⟫</span> }
 </pre>
 ◼
 </div>
@@ -564,7 +564,7 @@ typename
 <div id="NW0-1KmK2R-1" class="lirdisplay">
 <div class="lirlisting">
 <div class="listingheader">
-<span class="listingname">Listing 2:</span> <span class="listingfile"><a href="/home/bvassile/Documents/code/lir-tutorial/docs/7/.lir/largest-anagram-sets"><code>largest-anagram-sets</code></a></span>
+<span class="listingname">Listing 2:</span> <span class="listingfile"><a href="/home/boris/code/lir-tutorial/docs/7/.lir/largest-anagram-sets"><code>largest-anagram-sets</code></a></span>
 </div>
 <div class="listingcontents">
 <pre>
